@@ -23,7 +23,8 @@ function MyModal(props) {
 
   return (
     <div ref={modalRef} className="modal modal-container">
-      <div>모달 창 입니다.</div>
+      {props.el}
+
       <button onClick={closeModal}>모달 창 닫기</button>
     </div>
   );
