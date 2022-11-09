@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login-input {
+  border: none;
+  border-bottom: 1px solid black;
+  width: 30vh;
+}
+
+.login-input:focus {
+  outline: none;
+}
+
+.login-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px #fff inset;
+}

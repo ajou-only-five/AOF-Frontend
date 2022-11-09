@@ -3,16 +3,25 @@
   z-index: 999;
 
   /* 모달창 크기 */
-  width: 300px;
-  height: 200px;
+  padding: 10px;
 
   /* 모달창 디자인 */
-  background-color: lightgray;
+  background-color: white;
   border-radius: 8px;
+  color: black;
 
   /* 중앙 배치 */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.modal-header {
+  display: inline-block;
+  width: 100%;
+}
+
+.close-button {
+  float: right;
 }

@@ -1,26 +1,45 @@
 import React, { useState } from "react";
 
+import Toolbar from "../components/Sidebar/Toolbar";
 import MyModal from "../components/Modal/MyModal";
-import MyComponent from "../components/MyComponent";
+import Login from "../components/Login/Login";
+
+import "../styles/MainPage.css";
+
 import CalendarNavigator from "../components/CalendarNavigator/CalendarNavigator";
 
 function Mainpage() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isLogined, setIsLogined] = useState(true);
+  const [loginIsOpen, setLoginIsOpen] = useState(false);
 
-  const showModal = () => {
-    setIsOpen(true);
+  const toggleIsLogined = () => {
+    setIsLogined(!isLogined);
+  };
+
+  const showLoginModal = () => {
+    setLoginIsOpen(true);
   };
 
   return (
     <div>
+      {/* sidemenu */}
       <div>
-        <div>
-          <button onClick={showModal}>모달창 열기</button>
-          {isOpen && <MyModal setIsOpen={setIsOpen} el={<MyComponent />} />}
-        </div>
-        <div>
-          <CalendarNavigator />
-        </div>
+        <Toolbar
+          isLogined={isLogined}
+          toggleIsLogined={toggleIsLogined}
+          showLoginModal={showLoginModal}
+        />
+        {loginIsOpen && (
+          <MyModal
+            setIsOpen={setLoginIsOpen}
+            el={
+              <Login
+                toggleIsLogined={toggleIsLogined}
+                setIsOpen={setLoginIsOpen}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );

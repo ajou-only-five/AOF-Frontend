@@ -6,18 +6,17 @@ function CalendarNavigator() {
       <div
         style={{
           position: "absolute",
-          bottom: "-80%",
+          bottom: 100,
           left: "50%",
-          transform: "translate(-60%)",
+          transform: "translate(-65%, -50%)",
         }}
       >
         <div
-          className="container"
+          id="container"
           style={{
             width: 500,
             height: 500,
-            borderRadius: "50%",
-            position: "relative",
+            // border: "1px solid white",
           }}
         >
           {[...Array(36)].fill().map((el, i) => {
@@ -30,15 +29,16 @@ function CalendarNavigator() {
                   border: "1px solid white",
                   transform: `rotate(${
                     270 + 10 * i
-                  }deg) translate(${700}px) rotate(${
-                    -270 - 10 * i + 10 * i
-                  }deg)`,
+                  }deg) translate(${800}px) rotate(${-270}deg)`,
                   zIndex: `${Math.abs(18 - i)}`,
                   top: "50%",
                   left: "50%",
 
                   background: "#123456",
                 }}
+                // onClick={() => {
+                //   console.log(i);
+                // }}
               >
                 item{i + 1}
               </div>

@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
+import close from "../../images/icons/close.png";
+
 function MyModal(props) {
   const closeModal = () => {
     props.setIsOpen(false);
@@ -23,9 +25,15 @@ function MyModal(props) {
 
   return (
     <div ref={modalRef} className="modal modal-container">
+      <div className="modal-header">
+        <img
+          className="close-button"
+          src={close}
+          alt="close"
+          onClick={closeModal}
+        />
+      </div>
       {props.el}
-
-      <button onClick={closeModal}>모달 창 닫기</button>
     </div>
   );
 }
