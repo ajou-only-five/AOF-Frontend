@@ -8,6 +8,7 @@ import "../styles/MainPage.css";
 
 import CalendarNavigator from "../components/CalendarNavigator/CalendarNavigator";
 import MyChart from "../components/Chart/MyChart";
+import Quotes from "../components/Quotes/Quotes.jsx";
 
 function Mainpage() {
   const [isLogined, setIsLogined] = useState(true);
@@ -46,6 +47,8 @@ function Mainpage() {
           />
         )}
       </div>
+      {/* quotes */}
+      <Quotes />
     </div>
   );
 }
