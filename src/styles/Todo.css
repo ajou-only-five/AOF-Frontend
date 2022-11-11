@@ -12,7 +12,12 @@
   border-radius: 10px;
 
   overflow: auto;
+  scrollbar-width: none;
   word-break: break-all;
+}
+
+.today-todo-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
 }
 
 .today-title {
