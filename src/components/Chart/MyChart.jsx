@@ -7,9 +7,9 @@ import "../../styles/Chart.css";
 
 function MyChart(props) {
   const data = [
-    { name: "이균", count: 3, rank: 3 },
-    { name: "장성호", count: 4, rank: 2 },
-    { name: "강동하", count: 10, rank: 1 },
+    { name: "이균", count: 30, rank: 3 },
+    { name: "장성호", count: 40, rank: 2 },
+    { name: "강동하", count: 50, rank: 1 },
     { name: "유미리", count: 1, rank: 5 },
     { name: "나주영", count: 2, rank: 4 },
   ];

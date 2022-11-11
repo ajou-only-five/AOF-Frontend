@@ -34,5 +34,47 @@
         "completion": false
       }
     ]
+  },
+  {
+    "title": "test1",
+    "color": "lightblue",
+    "todoList": [
+      {
+        "todo": "test1-1",
+        "completion": false
+      },
+      {
+        "todo": "test1-2",
+        "completion": false
+      }
+    ]
+  },
+  {
+    "title": "test2",
+    "color": "lightblue",
+    "todoList": [
+      {
+        "todo": "test2-1",
+        "completion": true
+      },
+      {
+        "todo": "test2-2",
+        "completion": false
+      }
+    ]
+  },
+  {
+    "title": "test3",
+    "color": "lightblue",
+    "todoList": [
+      {
+        "todo": "test3-1",
+        "completion": false
+      },
+      {
+        "todo": "test3-2",
+        "completion": false
+      }
+    ]
   }
 ]
