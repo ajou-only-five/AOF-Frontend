@@ -10,6 +10,7 @@ import CalendarNavigator from "../components/CalendarNavigator/CalendarNavigator
 import MyChart from "../components/Chart/MyChart";
 import Quotes from "../components/Quotes/Quotes.jsx";
 import TodayTodoList from "../components/Todo/TodayTodoList";
+import CalendarNav from "../components/CalendarNavigator/CalendarNav";
 
 function Mainpage() {
   const [isLogined, setIsLogined] = useState(true);
@@ -25,13 +26,17 @@ function Mainpage() {
 
   return (
     <div>
-      {/* chart */}
+      {/* chart TopCenter */}
       <MyChart />
 
-      {/* quotes */}
+      {/* quotes LeftCenter */}
       <Quotes />
 
+      {/* TodatTodoList RightCenter */}
       <TodayTodoList />
+
+      {/* CalendarNav TopCenter */}
+      <CalendarNav />
 
       {/* sidemenu */}
       <Toolbar

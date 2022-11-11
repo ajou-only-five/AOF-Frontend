@@ -8,11 +8,15 @@ function TodoList(props) {
       {todoData.map((el) => {
         return (
           <div>
-            <div style={{ color: el.color }} className="todo-title">
+            <div
+              key={el.title}
+              style={{ color: el.color }}
+              className="todo-title"
+            >
               {el.title}
             </div>
             <div className="todo-list">
-              {el.todoList.map((el) => {
+              {el.todoList.map((el, i) => {
                 return <TodoBlock el={el} />;
               })}
             </div>
