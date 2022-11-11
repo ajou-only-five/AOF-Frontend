@@ -1,0 +1,32 @@
+.today-todo-container {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+
+  background-color: #343434;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.today-title {
+  font-size: 1.5em;
+  font-weight: 600;
+
+  margin-bottom: 15px;
+}
+
+.today-todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.today-todo-complete {
+  text-decoration: line-through;
+}
+
+.todo-title {
+  font-size: 18px;
+  font-weight: 600;
+}

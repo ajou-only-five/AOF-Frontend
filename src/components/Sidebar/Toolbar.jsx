@@ -12,7 +12,7 @@ function Toolbar(props) {
     setSidebar(!sidebar);
   };
   return (
-    <div>
+    <div className="toolbar">
       <img
         className="side-menu"
         src={menu}

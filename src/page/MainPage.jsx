@@ -9,6 +9,7 @@ import "../styles/MainPage.css";
 import CalendarNavigator from "../components/CalendarNavigator/CalendarNavigator";
 import MyChart from "../components/Chart/MyChart";
 import Quotes from "../components/Quotes/Quotes.jsx";
+import TodayTodoList from "../components/Todo/TodayTodoList";
 
 function Mainpage() {
   const [isLogined, setIsLogined] = useState(true);
@@ -25,30 +26,30 @@ function Mainpage() {
   return (
     <div>
       {/* chart */}
-      <div>
-        <MyChart />
-      </div>
-      {/* sidemenu */}
-      <div>
-        <Toolbar
-          isLogined={isLogined}
-          toggleIsLogined={toggleIsLogined}
-          showLoginModal={showLoginModal}
-        />
-        {loginIsOpen && (
-          <MyModal
-            setIsOpen={setLoginIsOpen}
-            el={
-              <Login
-                toggleIsLogined={toggleIsLogined}
-                setIsOpen={setLoginIsOpen}
-              />
-            }
-          />
-        )}
-      </div>
+      <MyChart />
+
       {/* quotes */}
       <Quotes />
+
+      <TodayTodoList />
+
+      {/* sidemenu */}
+      <Toolbar
+        isLogined={isLogined}
+        toggleIsLogined={toggleIsLogined}
+        showLoginModal={showLoginModal}
+      />
+      {loginIsOpen && (
+        <MyModal
+          setIsOpen={setLoginIsOpen}
+          el={
+            <Login
+              toggleIsLogined={toggleIsLogined}
+              setIsOpen={setLoginIsOpen}
+            />
+          }
+        />
+      )}
     </div>
   );
 }

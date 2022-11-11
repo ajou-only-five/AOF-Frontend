@@ -9,7 +9,7 @@ function MyChart(props) {
   const data = [
     { name: "이균", count: 32, rank: 3 },
     { name: "장성호", count: 41, rank: 2 },
-    { name: "강동하", count: 49, rank: 1 },
+    { name: "강동하", count: 50, rank: 1 },
     { name: "유미리", count: 23, rank: 5 },
     { name: "나주영", count: 26, rank: 4 },
   ];
@@ -21,7 +21,7 @@ function MyChart(props) {
       ? 50
       : Math.max(...countData.map((el) => el.count));
 
-  const chartHeight = (maxCount + 50) * 3;
+  const chartHeight = (maxCount + 50) * 3 > 400 ? 400 : (maxCount + 50) * 3;
 
   const barWidth = 50;
   const barMargin = 10;
@@ -29,7 +29,7 @@ function MyChart(props) {
   let width = numofBars * (barWidth + barMargin);
 
   return (
-    <div>
+    <div className="chart-container">
       <svg
         width={width}
         height={chartHeight}
