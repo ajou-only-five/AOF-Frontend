@@ -25,3 +25,44 @@
 .close-button {
   float: right;
 }
+
+.modal-animation {
+  width: 90vw;
+  height: 90vh;
+
+  animation: modalExpand 0.5s;
+}
+
+.modal-element-animation {
+  animation: elementFadeIn 0.5s;
+}
+
+@keyframes modalExpand {
+  0% {
+    width: 0%;
+    height: 0%;
+  }
+
+  100% {
+    width: 90vw;
+    height: 90vh;
+  }
+}
+
+@keyframes elementFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  55% {
+    opacity: 0;
+  }
+
+  65% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

@@ -11,6 +11,7 @@ function Toolbar(props) {
   const toggleSidebar = () => {
     setSidebar(!sidebar);
   };
+
   return (
     <div className="toolbar">
       <img

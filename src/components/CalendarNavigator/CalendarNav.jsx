@@ -6,7 +6,7 @@ import { target } from "./transform";
 import todoList from "./todoList.json";
 import "../../styles/CalendarNav.css";
 
-function CalendarNav() {
+function CalendarNav(props) {
   const coverRef = useRef();
 
   useEffect(() => {
@@ -21,14 +21,22 @@ function CalendarNav() {
   return (
     <div className="coverflow" ref={coverRef}>
       {todoList.map((el, i) => {
-        console.log(el);
+        // console.log(el);
         return (
           <div
             key={el.day}
             className="card coverflow-item"
             onClick={() => {
               const items = coverRef.current.children;
-              target(items, i);
+
+              function toggleTodoModal() {
+                props.setTodoModalIsOpen(true);
+                props.setTodoData(el.todoData);
+              }
+
+              items[i].style.zIndex === "999"
+                ? toggleTodoModal()
+                : target(items, i);
             }}
           >
             <div>{el.day}일</div>

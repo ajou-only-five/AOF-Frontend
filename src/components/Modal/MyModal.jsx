@@ -24,7 +24,14 @@ function MyModal(props) {
   });
 
   return (
-    <div ref={modalRef} className="modal modal-container">
+    <div
+      ref={modalRef}
+      className={
+        props.isAnimation
+          ? "modal modal-container modal-animation"
+          : "modal modal-container"
+      }
+    >
       <div className="modal-header">
         <img
           className="close-button"
@@ -33,7 +40,9 @@ function MyModal(props) {
           onClick={closeModal}
         />
       </div>
-      {props.el}
+      <div className={props.isAnimation ? "modal-element-animation" : ""}>
+        {props.el}
+      </div>
     </div>
   );
 }

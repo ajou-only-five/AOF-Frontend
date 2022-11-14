@@ -10,10 +10,14 @@ import MyChart from "../components/Chart/MyChart";
 import Quotes from "../components/Quotes/Quotes.jsx";
 import TodayTodoList from "../components/Todo/TodayTodoList";
 import CalendarNav from "../components/CalendarNavigator/CalendarNav";
+import TodoList from "../components/Todo/TodoList.jsx";
 
 function Mainpage() {
   const [isLogined, setIsLogined] = useState(true);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
+
+  const [todoModalIsOpen, setTodoModalIsOpen] = useState(false);
+  const [todoData, setTodoData] = useState([]);
 
   const toggleIsLogined = () => {
     setIsLogined(!isLogined);
@@ -35,7 +39,17 @@ function Mainpage() {
       <TodayTodoList />
 
       {/* CalendarNav TopCenter */}
-      <CalendarNav />
+      <CalendarNav
+        setTodoModalIsOpen={setTodoModalIsOpen}
+        setTodoData={setTodoData}
+      />
+      {todoModalIsOpen && (
+        <MyModal
+          isAnimation={true}
+          setIsOpen={setTodoModalIsOpen}
+          el={<TodoList data={todoData} />}
+        />
+      )}
 
       {/* sidemenu */}
       <Toolbar
