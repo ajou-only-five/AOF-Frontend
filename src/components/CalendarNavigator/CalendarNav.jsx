@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
+import TodoList from "../Todo/TodoList.jsx";
 import { target } from "./transform";
 
 import todoList from "./todoList.json";
@@ -10,14 +11,17 @@ function CalendarNav() {
 
   useEffect(() => {
     const items = coverRef.current.children;
+    const today = new Date();
+    const todayDate = today.getDate();
 
-    target(items, Math.floor(todoList.length / 2));
+    // target(items, Math.floor(todoList.length / 2));
+    target(items, todayDate);
   }, []);
 
   return (
-    // <div className="coverflow-container">
     <div className="coverflow" ref={coverRef}>
       {todoList.map((el, i) => {
+        console.log(el);
         return (
           <div
             key={el.day}
@@ -27,12 +31,12 @@ function CalendarNav() {
               target(items, i);
             }}
           >
-            Card{i}
+            <div>{el.day}일</div>
+            <TodoList data={el.todoData} isCard={true} />
           </div>
         );
       })}
     </div>
-    // {/* </div> */}
   );
 }
 

@@ -7,11 +7,11 @@ import "../../styles/Chart.css";
 
 function MyChart(props) {
   const data = [
-    { name: "이균", count: 30, rank: 3 },
-    { name: "장성호", count: 40, rank: 2 },
-    { name: "강동하", count: 50, rank: 1 },
-    { name: "유미리", count: 1, rank: 5 },
-    { name: "나주영", count: 2, rank: 4 },
+    { name: "강현욱", count: 30, rank: 4 },
+    { name: "박윤정", count: 40, rank: 3 },
+    { name: "강동하", count: 50, rank: 2 },
+    { name: "정윤미", count: 60, rank: 1 },
+    { name: "장성호", count: 2, rank: 5 },
   ];
 
   const [countData, setCountData] = useState(sortRank(data));

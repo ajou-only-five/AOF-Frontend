@@ -7,17 +7,15 @@ function TodoList(props) {
     <div className="todo-title-list">
       {todoData.map((el) => {
         return (
-          <div>
-            <div
-              key={el.title}
-              style={{ color: el.color }}
-              className="todo-title"
-            >
+          <div key={el.title}>
+            <div style={{ color: el.color }} className="todo-title">
               {el.title}
             </div>
             <div className="todo-list">
               {el.todoList.map((el, i) => {
-                return <TodoBlock el={el} />;
+                return (
+                  <TodoBlock key={el.todo} el={el} isCard={props.isCard} />
+                );
               })}
             </div>
           </div>

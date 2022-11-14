@@ -1,6 +1,7 @@
 import React from "react";
 
 function ChartBar(props) {
+  console.log(props);
   return (
     <>
       <text x={props.x + props.width / 3.3} y={80} fill={"white"}>
@@ -15,6 +16,7 @@ function ChartBar(props) {
         rx={5}
         fill={"#d4d4d4"}
       />
+
       <text
         x={props.x + props.width / 3.3}
         y={props.y + props.height + 20}

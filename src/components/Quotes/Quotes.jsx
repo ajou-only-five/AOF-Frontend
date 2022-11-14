@@ -10,7 +10,7 @@ function Quotes() {
   return (
     <div className="quote-container">
       <div style={{ marginBottom: 10 }}>
-        {quote.author} - {quote.authorProfile}
+        {quote.author} {quote.authorProfile && ` - ${quote.authorProfile}`}
       </div>
       <div>{quote.message}</div>
     </div>

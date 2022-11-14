@@ -6,7 +6,6 @@ import Login from "../components/Login/Login";
 
 import "../styles/MainPage.css";
 
-import CalendarNavigator from "../components/CalendarNavigator/CalendarNavigator";
 import MyChart from "../components/Chart/MyChart";
 import Quotes from "../components/Quotes/Quotes.jsx";
 import TodayTodoList from "../components/Todo/TodayTodoList";
