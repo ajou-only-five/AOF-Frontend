@@ -2,7 +2,7 @@ const ITEM_DISTANCE = 52.8;
 const CENTER_ITEM_DISTANCE = 21.12;
 
 export function setTransform(el, xpos, ypos, yAngle) {
-  el.style.transform = `translateX(${xpos * 1.5}px) translateY(${
+  el.style.transform = `translateX(${xpos * 1.5 + 27}px) translateY(${
     ypos * 40
   }px)  rotate(${yAngle}deg)`;
   el.style.zIndex = `${999 - ypos}`;

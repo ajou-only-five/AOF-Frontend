@@ -11,6 +11,7 @@ import Quotes from "../components/Quotes/Quotes.jsx";
 import TodayTodoList from "../components/Todo/TodayTodoList";
 import CalendarNav from "../components/CalendarNavigator/CalendarNav";
 import TodoList from "../components/Todo/TodoList.jsx";
+import MonthPicker from "../components/MonthPicker/MonthPicker";
 
 function Mainpage() {
   const [isLogined, setIsLogined] = useState(true);
@@ -50,6 +51,8 @@ function Mainpage() {
           el={<TodoList data={todoData} />}
         />
       )}
+
+      <MonthPicker />
 
       {/* sidemenu */}
       <Toolbar

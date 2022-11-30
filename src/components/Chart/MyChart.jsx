@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import ChartBar from "./ChartBar";
 
-import { sortRank } from "./sort";
+import { sortRank } from "../../js/sort";
 import "../../styles/Chart.css";
 
 function MyChart(props) {
