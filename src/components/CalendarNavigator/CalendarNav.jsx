@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import TodoList from "../Todo/TodoList.jsx";
 import { target } from "../../js/transform";
 
-import todoList from "./todoList.json";
+import todoListData from "./todoList.json";
 import "../../styles/CalendarNav.css";
 
 function CalendarNav(props) {
   const coverRef = useRef();
+
+  const [todoList, setTodoList] = useState(todoListData);
 
   useEffect(() => {
     const items = coverRef.current.children;
@@ -20,7 +22,7 @@ function CalendarNav(props) {
 
   return (
     <div className="coverflow" ref={coverRef}>
-      {todoList.map((el, i) => {
+      {todoList?.map((el, i) => {
         // console.log(el);
         return (
           <div
