@@ -20,20 +20,25 @@ function Sidebar(props) {
       <li onClick={() => setViewFollowing(!viewFollowing)}>
         {!viewFollowing ? "친구 목록 보기" : "친구 목록 닫기"}
       </li>
-      {viewFollowing &&
-        friendList.map((el, i) => {
-          return (
-            <div
-              key={i}
-              className="friend-box"
-              onClick={() => {
-                console.log(el.name);
-              }}
-            >
-              {el.name}
-            </div>
-          );
-        })}
+
+      {viewFollowing && (
+        <div>
+          <input className="friend-search-box" />
+          {friendList.map((el, i) => {
+            return (
+              <div
+                key={i}
+                className="friend-box"
+                onClick={() => {
+                  console.log(el.name);
+                }}
+              >
+                {el.name}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

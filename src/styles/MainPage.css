@@ -47,6 +47,10 @@
   display: block;
 }
 
+.friend-search-box {
+  animation: fadeInDown 0.2s;
+}
+
 .friend-box {
   padding: 10px 20px;
 
