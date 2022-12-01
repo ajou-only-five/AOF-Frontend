@@ -14,7 +14,7 @@ function CalendarNav(props) {
   useEffect(() => {
     const items = coverRef.current.children;
     const today = new Date();
-    const todayDate = today.getDate();
+    const todayDate = today.getDate() - 1;
 
     // target(items, Math.floor(todoList.length / 2));
     target(items, todayDate);
