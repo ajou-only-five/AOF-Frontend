@@ -7,6 +7,7 @@ function Quotes() {
   const [quote] = React.useState(
     quotelist[Math.floor(Math.random() * quotelist.length)]
   );
+
   return (
     <div className="quote-container">
       <div style={{ marginBottom: 10 }}>

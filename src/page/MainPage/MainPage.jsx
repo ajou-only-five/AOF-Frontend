@@ -13,20 +13,30 @@ import CalendarNav from "../../components/CalendarNavigator/CalendarNav";
 import TodoList from "../../components/Todo/TodoList.jsx";
 import MonthPicker from "../../components/MonthPicker/MonthPicker";
 
+import myTodoList from "./todoList.json";
+import shTodoList from "./todoListsh.json";
+
 function Mainpage() {
   const [isLogined, setIsLogined] = useState(true);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
 
   const [todoModalIsOpen, setTodoModalIsOpen] = useState(false);
+  const [todoList, setTodoList] = useState(myTodoList);
   const [todoData, setTodoData] = useState([]);
+
+  const [userIsSh, setUser] = useState(false);
+
+  useEffect(() => {
+    console.log("Effect");
+    setTodoList(userIsSh ? shTodoList : myTodoList);
+  }, [userIsSh]);
 
   const toggleIsLogined = () => {
     setIsLogined(!isLogined);
   };
 
-  const showLoginModal = () => {
-    setLoginIsOpen(true);
-  };
+  const today = new Date();
+  const todayDate = today.getDate() - 1;
 
   return (
     <div>
@@ -39,12 +49,13 @@ function Mainpage() {
           <Quotes />
 
           {/* TodatTodoList RightCenter */}
-          <TodayTodoList />
+          <TodayTodoList todoList={todoList[todayDate].todoData} />
 
           {/* CalendarNav TopCenter */}
           <CalendarNav
             setTodoModalIsOpen={setTodoModalIsOpen}
             setTodoData={setTodoData}
+            todoList={todoList}
           />
           {todoModalIsOpen && (
             <MyModal
@@ -57,7 +68,12 @@ function Mainpage() {
           <MonthPicker />
 
           {/* sidemenu */}
-          <Toolbar isLogined={isLogined} toggleIsLogined={toggleIsLogined} />
+          <Toolbar
+            isLogined={isLogined}
+            toggleIsLogined={toggleIsLogined}
+            setUser={setUser}
+            userIsSh={userIsSh}
+          />
         </div>
       ) : (
         <div>

@@ -3,13 +3,12 @@ import React, { useState, useEffect, useRef } from "react";
 import TodoList from "../Todo/TodoList.jsx";
 import { target } from "../../js/transform";
 
-import todoListData from "./todoList.json";
 import "../../styles/CalendarNav.css";
 
 function CalendarNav(props) {
   const coverRef = useRef();
 
-  const [todoList, setTodoList] = useState(todoListData);
+  const [todoList, setTodoList] = useState(props.todoList);
 
   useEffect(() => {
     const items = coverRef.current.children;

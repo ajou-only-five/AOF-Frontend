@@ -208,23 +208,23 @@
     "day": 6,
     "todoData": [
       {
-        "title": "day6-1",
+        "title": "day6-1sh",
         "color": "yellow",
         "todoList": [
           {
-            "todo": "day6-1-1",
+            "todo": "day6-1-1sh",
             "completion": true
           },
           {
-            "todo": "day6-1-2",
+            "todo": "day6-1-2sh",
             "completion": false
           },
           {
-            "todo": "day6-1-3",
+            "todo": "day6-1-3sh",
             "completion": false
           },
           {
-            "todo": "day6-1-4",
+            "todo": "day6-1-4sh",
             "completion": false
           }
         ]

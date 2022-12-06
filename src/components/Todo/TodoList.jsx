@@ -12,7 +12,7 @@ function TodoList(props) {
               {el.title}
             </div>
             <div className="todo-list">
-              {el.todoList.map((el, i) => {
+              {el.todoList?.map((el, i) => {
                 return (
                   <TodoBlock key={el.todo} el={el} isCard={props.isCard} />
                 );
