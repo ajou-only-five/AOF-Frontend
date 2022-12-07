@@ -17,7 +17,6 @@ import myTodoList from "./todoList.json";
 
 import newTodoList from "./newTodoList.json";
 
-import { getMonth, getDate } from "../../js/dateFormat";
 import { todoListFormat } from "../../js/todoListFormat";
 
 function Mainpage() {
@@ -65,7 +64,7 @@ function Mainpage() {
           <Quotes />
 
           {/* TodatTodoList RightCenter */}
-          <TodayTodoList todoList={todoList[todayDate].todoData} />
+          <TodayTodoList todoList={todoFormatList[todayDate]} />
 
           {/* CalendarNav TopCenter */}
           {/* <CalendarNav

@@ -23,7 +23,7 @@ function CalendarNav(props) {
   return (
     <div className="coverflow" ref={coverRef}>
       {todoList?.map((el, i) => {
-        console.log(el);
+        // console.log(el);
         return (
           <div
             key={i}
@@ -33,7 +33,7 @@ function CalendarNav(props) {
 
               function toggleTodoModal() {
                 props.setTodoModalIsOpen(true);
-                props.setTodoData(el.todoData);
+                props.setTodoData(el);
               }
 
               items[i].style.zIndex === "999"
