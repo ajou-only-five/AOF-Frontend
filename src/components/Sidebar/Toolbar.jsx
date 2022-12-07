@@ -26,8 +26,6 @@ function Toolbar(props) {
         isLogined={props.isLogined}
         toggleIsLogined={props.toggleIsLogined}
         showLoginModal={props.showLoginModal}
-        setUser={props.setUser}
-        userIsSh={props.userIsSh}
       />
     </div>
   );

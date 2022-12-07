@@ -14,7 +14,11 @@ import TodoList from "../../components/Todo/TodoList.jsx";
 import MonthPicker from "../../components/MonthPicker/MonthPicker";
 
 import myTodoList from "./todoList.json";
-import shTodoList from "./todoListsh.json";
+
+import newTodoList from "./newTodoList.json";
+
+import { getMonth, getDate } from "../../js/dateFormat";
+import { todoListFormat } from "../../js/todoListFormat";
 
 function Mainpage() {
   const [isLogined, setIsLogined] = useState(true);
@@ -24,19 +28,31 @@ function Mainpage() {
   const [todoList, setTodoList] = useState(myTodoList);
   const [todoData, setTodoData] = useState([]);
 
-  const [userIsSh, setUser] = useState(false);
+  const today = new Date();
+  const todayDate = today.getDate() - 1;
 
+  // 추후 API 요청을 위한 설정 년도
+  const [todoYear, setTodoYear] = useState(today.getFullYear());
+  // 추후 API 요청을 위한 설정 월
+  const [todoMonth, setTodoMonth] = useState(today.getMonth() + 1);
+  // 설정 년 월에 따른 마지막 날짜
+  const [maxDate, setMaxDate] = useState(
+    new Date(todoYear, todoMonth, 0).getDate()
+  );
+
+  const [todoFormatList, setTodoFormatList] = useState(
+    todoListFormat(newTodoList, maxDate)
+  );
+
+  // 설정 년 월에 따른 마지막 날짜 변동
   useEffect(() => {
-    console.log("Effect");
-    setTodoList(userIsSh ? shTodoList : myTodoList);
-  }, [userIsSh]);
+    setMaxDate(new Date(todoYear, todoMonth, 0).getDate());
+    // setTodoFormatList(todoListFormat(TODOLIST_GET_FROM_API, maxDate))
+  }, [todoYear, todoMonth]);
 
   const toggleIsLogined = () => {
     setIsLogined(!isLogined);
   };
-
-  const today = new Date();
-  const todayDate = today.getDate() - 1;
 
   return (
     <div>
@@ -68,12 +84,7 @@ function Mainpage() {
           <MonthPicker />
 
           {/* sidemenu */}
-          <Toolbar
-            isLogined={isLogined}
-            toggleIsLogined={toggleIsLogined}
-            setUser={setUser}
-            userIsSh={userIsSh}
-          />
+          <Toolbar isLogined={isLogined} toggleIsLogined={toggleIsLogined} />
         </div>
       ) : (
         <div>

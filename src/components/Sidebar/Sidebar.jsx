@@ -31,8 +31,6 @@ function Sidebar(props) {
                 className="friend-box"
                 onClick={() => {
                   console.log(el.name);
-                  props.setUser(true);
-                  console.log(props.userIsSh);
                 }}
               >
                 {el.name}
