@@ -68,10 +68,15 @@ function Mainpage() {
           <TodayTodoList todoList={todoList[todayDate].todoData} />
 
           {/* CalendarNav TopCenter */}
-          <CalendarNav
+          {/* <CalendarNav
             setTodoModalIsOpen={setTodoModalIsOpen}
             setTodoData={setTodoData}
             todoList={todoList}
+          /> */}
+          <CalendarNav
+            setTodoModalIsOpen={setTodoModalIsOpen}
+            setTodoData={setTodoData}
+            todoList={todoFormatList}
           />
           {todoModalIsOpen && (
             <MyModal

@@ -9,6 +9,7 @@ function CalendarNav(props) {
   const coverRef = useRef();
 
   const [todoList, setTodoList] = useState(props.todoList);
+  // console.log(todoList);
 
   useEffect(() => {
     const items = coverRef.current.children;
@@ -22,10 +23,10 @@ function CalendarNav(props) {
   return (
     <div className="coverflow" ref={coverRef}>
       {todoList?.map((el, i) => {
-        // console.log(el);
+        console.log(el);
         return (
           <div
-            key={el.day}
+            key={i}
             className="card coverflow-item"
             onClick={() => {
               const items = coverRef.current.children;
@@ -40,8 +41,8 @@ function CalendarNav(props) {
                 : target(items, i);
             }}
           >
-            <div>{el.day}일</div>
-            <TodoList data={el.todoData} isCard={true} />
+            <div>{i + 1}일</div>
+            <TodoList data={el} isCard={true} />
           </div>
         );
       })}
