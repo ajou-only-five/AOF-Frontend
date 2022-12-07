@@ -10,21 +10,21 @@ function Login(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // props.toggleIsLogined();
-    // props.setIsOpen(false);
 
     let body = {
       account: account,
       password: password,
     };
 
-    try {
-      await axios
-        .post(`${server_debug}/auth/login`, body)
-        .then((v) => console.log(v));
-    } catch (err) {
-      console.log(err);
-    }
+    await axios
+      .post(`${server_debug}/auth/login`, body)
+      .then((v) => {
+        console.log(v);
+        alert("로그인에 성공하였습니다.");
+        props.toggleIsLogined();
+        props.setIsOpen(false);
+      })
+      .catch(() => alert("아이디 혹은 비밀번호를 확인해주세요"));
   };
 
   return (
@@ -35,7 +35,6 @@ function Login(props) {
           type="name"
           placeholder="아이디"
           className="login-input"
-          value={account || ""}
           onChange={(e) => {
             setAccount(e.currentTarget.value);
           }}
@@ -45,7 +44,6 @@ function Login(props) {
           type="password"
           placeholder="비밀번호"
           className="login-input"
-          value={password || ""}
           onChange={(e) => {
             setPassword(e.currentTarget.value);
           }}
