@@ -80,6 +80,7 @@ function Mainpage() {
             <MyModal
               isAnimation={true}
               setIsOpen={setTodoModalIsOpen}
+              isLogined={isLogined}
               el={<TodoList data={todoData} />}
             />
           )}
