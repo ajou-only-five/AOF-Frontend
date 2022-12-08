@@ -3,15 +3,19 @@ import React, { useState } from "react";
 import { server_debug } from "../../js/server_url";
 
 function CreateTodoItem(props) {
-    const [content, setContent] = useState();
-    const [startAt, setStartAt] = useState();
-    const [endtAt, setEndAt] = useState();
+    const [content, setContent] = useState('');
+    const [startAt, setStartAt] = useState('');
+    const [endtAt, setEndAt] = useState('');
 
     const createNewItem = () =>{
         props.clicked(true)
     }
-    const Enroll = async() => {
-        await axios
+    const Enroll = async (e) => {
+        e.preventDefault();
+        if(content === '' || startAt === '' || endtAt === '') {
+            alert('비어있는 입력이 있습니다.');
+        } else {
+            await axios
             .post(`${server_debug}/todoItem`, { 
                 titleId: 1,
                 content: content,
@@ -21,7 +25,9 @@ function CreateTodoItem(props) {
             console.log(v);
             })
             .catch((err) => alert(err));
+        }
         props.clicked(false);
+        props.setIsLogined(true);
     }
 
     return (
@@ -38,7 +44,7 @@ function CreateTodoItem(props) {
                         <input type='text' value={startAt} onChange={(e) => { setStartAt(e.currentTarget.value) }}></input>
                         <label>일정 종료 시간</label>
                         <input type='text' value={endtAt} onChange={(e) => { setEndAt(e.currentTarget.value) }}></input>
-                        <button onClick={Enroll}>등록</button>
+                        <button onClick={(e) => Enroll(e)}>등록</button>
                     </form>
                 </div>
             ) :<></>}

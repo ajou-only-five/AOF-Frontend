@@ -43,7 +43,7 @@ function MyModal(props) {
         />
       </div>
       {props.isLogined ? (<div>
-        <CreateTodoItem state={createNewItemButtonClicked} clicked={setCreateNewItemButtonClicked} />
+        <CreateTodoItem state={createNewItemButtonClicked} clicked={setCreateNewItemButtonClicked} setIsLogined={props.setIsLogined} />
       </div>) : <></>}
       {!createNewItemButtonClicked ? (<div className={props.isAnimation ? "modal-element-animation" : ""}>
         {props.el}
