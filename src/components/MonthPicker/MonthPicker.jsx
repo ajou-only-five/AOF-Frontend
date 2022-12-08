@@ -1,6 +1,6 @@
 import React from "react";
 
-function MonthPicker() {
+function MonthPicker(props) {
   return (
     <div
       style={{
@@ -8,9 +8,16 @@ function MonthPicker() {
         left: "50%",
         bottom: 0,
         transform: "translate(-50%)",
+
+        display: "flex",
+        gap: "10px",
       }}
     >
-      MonthPicker
+      <div>{"<"}</div>
+      <div>
+        {props.todoYear}년 {props.todoMonth}월
+      </div>
+      <div>{">"}</div>
     </div>
   );
 }

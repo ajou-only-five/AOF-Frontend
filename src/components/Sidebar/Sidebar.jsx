@@ -9,6 +9,7 @@ const friendList = [
 
 function Sidebar(props) {
   const [viewFollowing, setViewFollowing] = useState(false);
+  const [search, setSearch] = useState("");
   return (
     <div className={props.sidebar ? "sidebar sidebar--open" : "sidebar"}>
       {!props.isLogined ? (
@@ -23,7 +24,11 @@ function Sidebar(props) {
 
       {viewFollowing && (
         <div>
-          <input className="friend-search-box" />
+          <input
+            className="friend-search-box"
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+          />
           {friendList.map((el, i) => {
             return (
               <div
@@ -39,6 +44,9 @@ function Sidebar(props) {
           })}
         </div>
       )}
+      <li onClick={() => setViewFollowing(!viewFollowing)}>
+        {!viewFollowing ? "친구 요청 보기" : "친구 목록 닫기"}
+      </li>
     </div>
   );
 }

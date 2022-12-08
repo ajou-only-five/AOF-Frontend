@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import Toolbar from "../../components/Sidebar/Toolbar";
 import MyModal from "../../components/Modal/MyModal";
 import Login from "../../components/Login/Login";
+import Register from "../../components/Login/Register";
 
 import "../../styles/MainPage.css";
 
@@ -13,18 +14,16 @@ import CalendarNav from "../../components/CalendarNavigator/CalendarNav";
 import TodoList from "../../components/Todo/TodoList.jsx";
 import MonthPicker from "../../components/MonthPicker/MonthPicker";
 
-import myTodoList from "./todoList.json";
-
 import newTodoList from "./newTodoList.json";
 
 import { todoListFormat } from "../../js/todoListFormat";
 
 function Mainpage() {
-  const [isLogined, setIsLogined] = useState(true);
+  const [isLogined, setIsLogined] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
+  const [registerIsOpen, setRegisterIsOpen] = useState(false);
 
   const [todoModalIsOpen, setTodoModalIsOpen] = useState(false);
-  const [todoList, setTodoList] = useState(myTodoList);
   const [todoData, setTodoData] = useState([]);
 
   const today = new Date();
@@ -81,26 +80,37 @@ function Mainpage() {
             <MyModal
               isAnimation={true}
               setIsOpen={setTodoModalIsOpen}
+              isLogined={isLogined}
+              setIsLogined={setIsLogined}
               el={<TodoList data={todoData} />}
             />
           )}
 
-          <MonthPicker />
+          <MonthPicker
+            todoYear={todoYear}
+            todoMonth={todoMonth}
+            setTodoYear={setTodoYear}
+            setTodoMonth={setTodoMonth}
+          />
 
           {/* sidemenu */}
           <Toolbar isLogined={isLogined} toggleIsLogined={toggleIsLogined} />
         </div>
       ) : (
-        <div>
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+
+            display: "flex",
+            gap: 10,
+          }}
+        >
           <div
             onClick={() => {
               setLoginIsOpen(true);
-            }}
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50% -50%)",
             }}
           >
             로그인
@@ -112,6 +122,24 @@ function Mainpage() {
                 <Login
                   toggleIsLogined={toggleIsLogined}
                   setIsOpen={setLoginIsOpen}
+                />
+              }
+            />
+          )}
+          <div
+            onClick={() => {
+              setRegisterIsOpen(true);
+            }}
+          >
+            회원가입
+          </div>
+          {registerIsOpen && (
+            <MyModal
+              setIsOpen={setRegisterIsOpen}
+              el={
+                <Register
+                  toggleIsLogined={toggleIsLogined}
+                  setIsOpen={setRegisterIsOpen}
                 />
               }
             />
