@@ -87,10 +87,6 @@ function Mainpage() {
     }
   }, [todoYear, todoMonth]);
 
-  useEffect(() => {
-    console.log(todoList);
-  }, [todoList]);
-
   const toggleIsLogined = () => {
     // console.log(user);
     if (user.userId === undefined) {

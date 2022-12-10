@@ -1,16 +1,40 @@
 import axios from "axios";
 import React from "react";
+import { useTodoListContext } from "../../context/todoListContext";
 
 import check from "../../images/icons/check.png";
+import { getDate } from "../../js/dateFormat";
 import { server_debug } from "../../js/server_url";
 
 function TodoBlock(props) {
+  const { todoList, setTodoList } = useTodoListContext();
   const deleteContent = async (el) => {
     let body = { contentId: el.contentId };
-    console.log(body);
+    console.log(el);
     await axios
       .delete(`${server_debug}/todo/item`, { data: body })
-      .then((v) => console.log(v));
+      .then((v) => {
+        if (v.status === 200) {
+          let tmp = Array.from(todoList);
+
+          const contentIndex = tmp[getDate(el.startAt) - 1]
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.findIndex((v) => v.contentId === el.contentId);
+
+          if (contentIndex === -1) {
+            // error 처리
+            return;
+          }
+
+          tmp[getDate(el.startAt) - 1]
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.splice(contentIndex, 1);
+
+          setTodoList(tmp);
+
+          // setTodoList(tmp);
+        }
+      });
   };
   return (
     <div>
@@ -31,13 +55,15 @@ function TodoBlock(props) {
             <div className={el.isChecked ? "todo todo-complete" : "todo"}>
               {el.content}
             </div>
-            <div
-              onClick={() => {
-                deleteContent(el);
-              }}
-            >
-              delete
-            </div>
+            {!props.isCard && (
+              <div
+                onClick={() => {
+                  deleteContent(el);
+                }}
+              >
+                delete
+              </div>
+            )}
           </div>
         );
       })}

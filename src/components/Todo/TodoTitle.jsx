@@ -25,6 +25,7 @@ function TodoTitle(props) {
           .find((el) => el.titleId === props.data.titleId)
           .todoItemList.push({
             ...v.data,
+            titleId: props.data.titleId,
           });
 
         setTodoList(tmp);
