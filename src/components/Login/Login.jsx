@@ -31,6 +31,7 @@ function Login(props) {
     await axios
       .get(`${server_debug}/todo/search/todoList`, params)
       .then((res) => {
+        console.log(res);
         if (res.status === 200) {
           setTodoList(Array.from(todoListFormat(res.data, currentMaxDate)));
         }

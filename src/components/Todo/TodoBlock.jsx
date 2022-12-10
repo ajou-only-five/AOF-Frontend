@@ -22,6 +22,7 @@ function TodoBlock(props) {
             <div className={el.isChecked ? "todo todo-complete" : "todo"}>
               {el.content}
             </div>
+            <div>delete</div>
           </div>
         );
       })}

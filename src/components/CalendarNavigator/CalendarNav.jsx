@@ -34,7 +34,7 @@ function CalendarNav(props) {
 
               function toggleTodoModal() {
                 props.setTodoModalIsOpen(true);
-                props.setTodoData(el);
+                props.setCardIndex(i);
               }
 
               items[i].style.zIndex === "999"

@@ -1,8 +1,45 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { useTodoListContext } from "../../context/todoListContext";
+import { server_debug } from "../../js/server_url";
 
 function TodoTitle(props) {
+  const { todoList, setTodoList } = useTodoListContext();
   const [isCreate, setIsCreate] = useState(false);
   const [newContent, setNewContent] = useState("");
+
+  const createNewContent = async () => {
+    let body = {
+      titleId: props.data.titleId,
+      content: newContent,
+      startAt: new Date(),
+      endAt: new Date(),
+    };
+
+    await axios
+      .post(`${server_debug}/todo/item`, body)
+      .then((v) => console.log(v));
+  };
+
+  const deleteTodoTitle = async () => {
+    let body = { titleId: props.data.titleId };
+
+    await axios
+      .delete(`${server_debug}/todo/title`, { data: body })
+      .then((v) => {
+        console.log(v);
+        if (v.status === 200) {
+          let tmp = Array.from(todoList);
+
+          setTodoList(
+            tmp.map((item) =>
+              item.filter((el) => el.titleId !== props.data.titleId)
+            )
+          );
+        }
+      })
+      .catch((e) => console.log(e));
+  };
 
   return (
     <div style={{ display: "flex" }}>
@@ -16,7 +53,27 @@ function TodoTitle(props) {
       >
         추가
       </div>
-      {isCreate && <input />}
+      <div
+        onClick={() => {
+          deleteTodoTitle();
+        }}
+      >
+        삭제
+      </div>
+      {isCreate && (
+        <form>
+          <input onChange={(e) => setNewContent(e.currentTarget.value)} />
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              //   console.log(user.userId);
+              createNewContent();
+            }}
+          >
+            등록
+          </button>
+        </form>
+      )}
     </div>
   );
 }

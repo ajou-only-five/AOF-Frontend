@@ -17,8 +17,6 @@ function AddTitle() {
       color: titleColor,
     };
 
-    console.log(body);
-
     await axios
       .post(`${server_debug}/todo/title`, body)
       .then((v) => {
@@ -53,8 +51,6 @@ function AddTitle() {
         <button
           onClick={(e) => {
             e.preventDefault();
-            console.log(title);
-            console.log(titleColor);
             createNewTitle();
           }}
         >

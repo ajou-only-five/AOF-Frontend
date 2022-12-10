@@ -27,7 +27,7 @@ function Mainpage() {
   const [registerIsOpen, setRegisterIsOpen] = useState(false);
 
   const [todoModalIsOpen, setTodoModalIsOpen] = useState(false);
-  const [todoData, setTodoData] = useState([]);
+  const [cardIndex, setCardIndex] = useState();
 
   const today = new Date();
   const todayDate = today.getDate() - 1;
@@ -58,8 +58,8 @@ function Mainpage() {
       .then((res) => {
         console.log(res.data);
         if (res.status === 200) {
-          console.log(res.data);
-          setTodoList(Array.from(todoListFormat([], maxDate)));
+          // console.log(res.data);
+          setTodoList(Array.from(todoListFormat(res.data, maxDate)));
         }
       })
       .catch((e) => {
@@ -87,8 +87,12 @@ function Mainpage() {
     }
   }, [todoYear, todoMonth]);
 
+  useEffect(() => {
+    console.log(todoList);
+  }, [todoList]);
+
   const toggleIsLogined = () => {
-    console.log(user);
+    // console.log(user);
     if (user.userId === undefined) {
       setIsLogined(false);
       return;
@@ -111,12 +115,12 @@ function Mainpage() {
               <Quotes />
 
               {/* TodatTodoList RightCenter */}
-              <TodayTodoList todoList={todoList[todayDate]} />
+              <TodayTodoList todoList={todoList[todayDate]} today={todayDate} />
 
               {/* CalendarNav TopCenter */}
               <CalendarNav
                 setTodoModalIsOpen={setTodoModalIsOpen}
-                setTodoData={setTodoData}
+                setCardIndex={setCardIndex}
                 todoList={todoList}
               />
               {todoModalIsOpen && (
@@ -125,7 +129,7 @@ function Mainpage() {
                   setIsOpen={setTodoModalIsOpen}
                   isLogined={isLogined}
                   setIsLogined={setIsLogined}
-                  el={<TodoList data={todoData} />}
+                  el={<TodoList data={todoList[cardIndex]} />}
                 />
               )}
 
