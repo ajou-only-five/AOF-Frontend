@@ -1,15 +1,35 @@
+import axios from "axios";
 import React, { useState } from "react";
-
-const friendList = [
-  {
-    name: "강동하",
-  },
-  { name: "장성호" },
-];
+import { server_debug } from "../../js/server_url";
+import SearchListview from "./SearchListView";
 
 function Sidebar(props) {
-  const [viewFollowing, setViewFollowing] = useState(false);
-  const [search, setSearch] = useState("");
+  const searchListViewDataList = [
+    {
+      id: 0,
+      apiUri: `${server_debug}/search/friend`,
+      userId: 2,
+      relation: 0,
+      titleWhenShow: "친구 목록 닫기",
+      titleWhenUnShow: "친구 목록 보기",
+    },
+    {
+      id: 1,
+      apiUri: `${server_debug}/search/friendRequested`,
+      userId: 2,
+      relation: 2,
+      titleWhenShow: "친구 요청 목록 닫기",
+      titleWhenUnShow: "친구 요청 목록 보기",
+    },
+    {
+      id: 2,
+      apiUri: `${server_debug}/search/notFriend`,
+      userId: 2,
+      titleWhenShow: "닫기",
+      titleWhenUnShow: "친구 찾기",
+    },
+  ];
+
   return (
     <div className={props.sidebar ? "sidebar sidebar--open" : "sidebar"}>
       {!props.isLogined ? (
@@ -18,35 +38,16 @@ function Sidebar(props) {
         <li onClick={props.toggleIsLogined}>로그아웃</li>
       )}
 
-      <li onClick={() => setViewFollowing(!viewFollowing)}>
-        {!viewFollowing ? "친구 목록 보기" : "친구 목록 닫기"}
-      </li>
-
-      {viewFollowing && (
-        <div>
-          <input
-            className="friend-search-box"
-            value={search}
-            onChange={(e) => setSearch(e.currentTarget.value)}
-          />
-          {friendList.map((el, i) => {
-            return (
-              <div
-                key={i}
-                className="friend-box"
-                onClick={() => {
-                  console.log(el.name);
-                }}
-              >
-                {el.name}
-              </div>
-            );
-          })}
-        </div>
-      )}
-      <li onClick={() => setViewFollowing(!viewFollowing)}>
-        {!viewFollowing ? "친구 요청 보기" : "친구 목록 닫기"}
-      </li>
+      {searchListViewDataList.map((data) => (
+        <SearchListview
+          key={data.id}
+          initialApiUri={data.apiUri}
+          userId={data.userId}
+          relation={data.relation}
+          titleWhenShow={data.titleWhenShow}
+          titleWhenUnShow={data.titleWhenUnShow}
+        />
+      ))}
     </div>
   );
 }

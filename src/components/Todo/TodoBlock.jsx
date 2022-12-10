@@ -7,7 +7,7 @@ function TodoBlock(props) {
     <div>
       {props.el.map((el, i) => {
         return (
-          <div className="todo-block">
+          <div key={el.contentId} className="todo-block">
             {!props.isCard && (
               <div
                 className={
