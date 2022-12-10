@@ -4,7 +4,7 @@ import "../../styles/Todo.css";
 import TodoList from "./TodoList.jsx";
 
 function TodayTodoList(props) {
-  console.log(props.todoList);
+  // console.log(props.todoList);
   const [todoData] = React.useState(props.todoList);
   return (
     <div className="today-todo-container">

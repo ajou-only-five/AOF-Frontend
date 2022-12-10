@@ -8,16 +8,16 @@ function TodoList(props) {
       {todoData.map((el, i) => {
         return (
           <div key={i}>
-            <div style={{ color: el.color }} className="todo-title">
-              {el.title}
-            </div>
+            {!props.isCard && (
+              <div style={{ display: "flex" }}>
+                <div style={{ color: el.color }} className="todo-title">
+                  {el.title}
+                </div>
+                <div>추가</div>
+              </div>
+            )}
             <div className="todo-list">
-              {/* {el.todoList?.map((el, i) => {
-                return (
-                  <TodoBlock key={el.content} el={el} isCard={props.isCard} />
-                );
-              })} */}
-              <TodoBlock el={el} isCard={props.isCard} />
+              <TodoBlock el={el.todoItemList} isCard={props.isCard} />
             </div>
           </div>
         );

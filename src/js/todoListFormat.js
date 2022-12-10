@@ -1,22 +1,28 @@
 import { getDate } from "./dateFormat";
 
 export function todoListFormat(list, maxDate) {
-  let tmp = new Array(maxDate).fill([]);
-
-  // console.log(list);
-
-  list.map((el) => {
-    return (tmp[getDate(el.startAt) - 1] = [
-      ...tmp[getDate(el.startAt) - 1],
-      {
+  let tmp = Array.from({ length: maxDate }, (e) => {
+    return list.map((el) => {
+      return {
+        titleId: el.titleId,
         title: el.title,
-        content: el.content,
-        isChecked: el.isChecked,
-      },
-    ]);
+        todoItemList: [],
+      };
+    });
   });
 
-  // console.log(tmp);
+  console.log();
+
+  list.map((titleEl) =>
+    titleEl.todoItemList.map((el) => {
+      return (tmp[getDate(el.startAt) - 1][titleEl.titleId - 1].todoItemList = [
+        ...tmp[getDate(el.startAt) - 1][titleEl.titleId - 1].todoItemList,
+        { ...el },
+      ]);
+    })
+  );
+
+  console.log(tmp);
 
   return tmp;
 }

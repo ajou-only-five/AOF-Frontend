@@ -14,9 +14,7 @@ function Register(props) {
   const [isValidAccount, setIsValidAccount] = useState(false);
   const [isValidNickname, setIsValidNickname] = useState(false);
 
-  const handleSubmit = async (e) => {
-    // e.preventDefault();
-
+  const handleSubmit = async () => {
     if (isValidAccount && isValidNickname) {
       let body = {
         account: account,
@@ -48,7 +46,7 @@ function Register(props) {
     let body = { account: account };
 
     await axios
-      .post(`${server_debug}/valid/accountName/exists`, body)
+      .post(`${server_debug}/valid/account/exists`, body)
       .then((v) => {
         alert("사용가능한 아이디 입니다.");
         setIsValidAccount(true);
