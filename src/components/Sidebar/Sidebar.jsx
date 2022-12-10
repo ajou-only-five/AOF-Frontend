@@ -3,10 +3,13 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useUserContext } from "../../context/userContext/index";
 import { server_debug } from "../../js/server_url";
+import AddTitle from "./AddTitle";
 import SearchListview from "./SearchListView";
 
 function Sidebar(props) {
   const { user } = useUserContext();
+
+  const [addTitle, setAddTitle] = useState(false);
 
   const searchListViewDataList = [
     {
@@ -36,12 +39,7 @@ function Sidebar(props) {
 
   return (
     <div className={props.sidebar ? "sidebar sidebar--open" : "sidebar"}>
-      {!props.isLogined ? (
-        <li onClick={props.showLoginModal}>로그인</li>
-      ) : (
-        <li onClick={props.toggleIsLogined}>로그아웃</li>
-      )}
-
+      <li onClick={props.toggleIsLogined}>로그아웃</li>
       {searchListViewDataList.map((data) => (
         <SearchListview
           key={data.id}
@@ -52,6 +50,14 @@ function Sidebar(props) {
           titleWhenUnShow={data.titleWhenUnShow}
         />
       ))}
+      <li
+        onClick={() => {
+          setAddTitle(!addTitle);
+        }}
+      >
+        타이틀 추가
+      </li>
+      {addTitle && <AddTitle />}
     </div>
   );
 }

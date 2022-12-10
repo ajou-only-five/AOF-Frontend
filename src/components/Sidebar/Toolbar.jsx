@@ -23,7 +23,6 @@ function Toolbar(props) {
       <Backdrop sidebar={sidebar} setSidebar={toggleSidebar} />
       <Sidebar
         sidebar={sidebar}
-        isLogined={props.isLogined}
         toggleIsLogined={props.toggleIsLogined}
         showLoginModal={props.showLoginModal}
         userId={props.userId}

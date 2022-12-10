@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Toolbar from "../../components/Sidebar/Toolbar";
 import MyModal from "../../components/Modal/MyModal";
@@ -14,11 +15,13 @@ import CalendarNav from "../../components/CalendarNavigator/CalendarNav";
 import TodoList from "../../components/Todo/TodoList.jsx";
 import MonthPicker from "../../components/MonthPicker/MonthPicker";
 
-import newTodoList from "./asdf.json";
-
 import { todoListFormat } from "../../js/todoListFormat";
+import useTodoListContext from "../../context/todoListContext/useTodoListContext";
+import { useUserContext } from "../../context/userContext";
+import { server_debug } from "../../js/server_url";
 
 function Mainpage() {
+  const { user } = useUserContext();
   const [isLogined, setIsLogined] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [registerIsOpen, setRegisterIsOpen] = useState(false);
@@ -38,111 +41,157 @@ function Mainpage() {
     new Date(todoYear, todoMonth, 0).getDate()
   );
 
-  const [todoFormatList, setTodoFormatList] = useState(
-    todoListFormat(newTodoList, maxDate)
-  );
+  const { todoList, setTodoList } = useTodoListContext();
+  const [isLoading, setIsLoading] = useState(false);
 
+  const fetchTodoList = async () => {
+    const params = {
+      params: {
+        userId: user.userId,
+        year: todoYear,
+        month: todoMonth,
+      },
+    };
+
+    await axios
+      .get(`${server_debug}/todo/search/todoList`, params)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 200) {
+          console.log(res.data);
+          setTodoList(Array.from(todoListFormat([], maxDate)));
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
   // 설정 년 월에 따른 마지막 날짜 변동
   useEffect(() => {
     setMaxDate(new Date(todoYear, todoMonth, 0).getDate());
-    // setTodoFormatList(todoListFormat(TODOLIST_GET_FROM_API, maxDate))
+
+    if (user.userId) {
+      try {
+        setIsLoading(true);
+
+        fetchTodoList()
+          .then((response) => {
+            setIsLoading(false);
+          })
+          .catch(() => setIsLoading(false));
+      } catch (e) {
+        console.log(e);
+        setIsLoading(false);
+      }
+    }
   }, [todoYear, todoMonth]);
 
   const toggleIsLogined = () => {
-    setIsLogined(!isLogined);
+    console.log(user);
+    if (user.userId === undefined) {
+      setIsLogined(false);
+      return;
+    }
+    setIsLogined(true);
   };
 
   return (
     <div>
-      {isLogined ? (
+      {isLoading ? (
+        <div>로딩 중입니다.</div>
+      ) : (
         <div>
-          {/* chart TopCenter */}
-          <MyChart />
+          {isLogined ? (
+            <div>
+              {/* chart TopCenter */}
+              <MyChart />
 
-          {/* quotes LeftCenter */}
-          <Quotes />
+              {/* quotes LeftCenter */}
+              <Quotes />
 
-          {/* TodatTodoList RightCenter */}
-          <TodayTodoList todoList={todoFormatList[todayDate]} />
+              {/* TodatTodoList RightCenter */}
+              <TodayTodoList todoList={todoList[todayDate]} />
 
-          {/* CalendarNav TopCenter */}
-          {/* <CalendarNav
+              {/* CalendarNav TopCenter */}
+              {/* <CalendarNav
             setTodoModalIsOpen={setTodoModalIsOpen}
             setTodoData={setTodoData}
             todoList={todoList}
           /> */}
-          <CalendarNav
-            setTodoModalIsOpen={setTodoModalIsOpen}
-            setTodoData={setTodoData}
-            todoList={todoFormatList}
-          />
-          {todoModalIsOpen && (
-            <MyModal
-              isAnimation={true}
-              setIsOpen={setTodoModalIsOpen}
-              isLogined={isLogined}
-              setIsLogined={setIsLogined}
-              el={<TodoList data={todoData} />}
-            />
-          )}
+              <CalendarNav
+                setTodoModalIsOpen={setTodoModalIsOpen}
+                setTodoData={setTodoData}
+                todoList={todoList}
+              />
+              {todoModalIsOpen && (
+                <MyModal
+                  isAnimation={true}
+                  setIsOpen={setTodoModalIsOpen}
+                  isLogined={isLogined}
+                  setIsLogined={setIsLogined}
+                  el={<TodoList data={todoData} />}
+                />
+              )}
 
-          <MonthPicker
-            todoYear={todoYear}
-            todoMonth={todoMonth}
-            setTodoYear={setTodoYear}
-            setTodoMonth={setTodoMonth}
-          />
+              <MonthPicker
+                todoYear={todoYear}
+                todoMonth={todoMonth}
+                setTodoYear={setTodoYear}
+                setTodoMonth={setTodoMonth}
+              />
 
-          {/* sidemenu */}
-          <Toolbar isLogined={isLogined} toggleIsLogined={toggleIsLogined} />
-        </div>
-      ) : (
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+              {/* sidemenu */}
+              <Toolbar toggleIsLogined={toggleIsLogined} />
+            </div>
+          ) : (
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
 
-            display: "flex",
-            gap: 10,
-          }}
-        >
-          <div
-            onClick={() => {
-              setLoginIsOpen(true);
-            }}
-          >
-            로그인
-          </div>
-          {loginIsOpen && (
-            <MyModal
-              setIsOpen={setLoginIsOpen}
-              el={
-                <Login
-                  toggleIsLogined={toggleIsLogined}
+                display: "flex",
+                gap: 10,
+              }}
+            >
+              <div
+                onClick={() => {
+                  setLoginIsOpen(true);
+                }}
+              >
+                로그인
+              </div>
+              {loginIsOpen && (
+                <MyModal
                   setIsOpen={setLoginIsOpen}
+                  el={
+                    <Login
+                      toggleIsLogined={toggleIsLogined}
+                      setIsOpen={setLoginIsOpen}
+                    />
+                  }
                 />
-              }
-            />
-          )}
-          <div
-            onClick={() => {
-              setRegisterIsOpen(true);
-            }}
-          >
-            회원가입
-          </div>
-          {registerIsOpen && (
-            <MyModal
-              setIsOpen={setRegisterIsOpen}
-              el={
-                <Register
-                  toggleIsLogined={toggleIsLogined}
+              )}
+              <div
+                onClick={() => {
+                  setRegisterIsOpen(true);
+                }}
+              >
+                회원가입
+              </div>
+              {registerIsOpen && (
+                <MyModal
                   setIsOpen={setRegisterIsOpen}
+                  el={
+                    <Register
+                      toggleIsLogined={toggleIsLogined}
+                      setIsOpen={setRegisterIsOpen}
+                    />
+                  }
                 />
-              }
-            />
+              )}
+            </div>
           )}
         </div>
       )}

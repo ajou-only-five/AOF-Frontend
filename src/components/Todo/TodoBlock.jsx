@@ -5,7 +5,7 @@ import check from "../../images/icons/check.png";
 function TodoBlock(props) {
   return (
     <div>
-      {props.el.map((el, i) => {
+      {props.el?.map((el) => {
         return (
           <div key={el.contentId} className="todo-block">
             {!props.isCard && (
@@ -16,7 +16,7 @@ function TodoBlock(props) {
                     : "check-circle"
                 }
               >
-                {el.isChecked && <img src={check} alt="check" />}
+                {el.isChecked !== 0 && <img src={check} alt="check" />}
               </div>
             )}
             <div className={el.isChecked ? "todo todo-complete" : "todo"}>

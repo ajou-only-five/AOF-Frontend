@@ -4,11 +4,13 @@ import TodoList from "../Todo/TodoList.jsx";
 import { target } from "../../js/transform";
 
 import "../../styles/CalendarNav.css";
+import useTodoListContext from "../../context/todoListContext/useTodoListContext.js";
 
 function CalendarNav(props) {
   const coverRef = useRef();
 
-  const [todoList, setTodoList] = useState(props.todoList);
+  const { todoList } = useTodoListContext();
+  // const [todoList, setTodoList] = useState(props.todoList);
   // console.log(todoList);
 
   useEffect(() => {
@@ -23,7 +25,6 @@ function CalendarNav(props) {
   return (
     <div className="coverflow" ref={coverRef}>
       {todoList?.map((el, i) => {
-        // console.log(el);
         return (
           <div
             key={i}

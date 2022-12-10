@@ -1,11 +1,14 @@
 import React from "react";
+import { useTodoListContext } from "../../context/todoListContext";
 import TodoBlock from "./TodoBlock";
 
 function TodoList(props) {
   const [todoData] = React.useState(props.data);
+
   return (
     <div className="todo-title-list">
       {todoData.map((el, i) => {
+        console.log(el);
         return (
           <div key={i}>
             {!props.isCard && (
@@ -16,9 +19,11 @@ function TodoList(props) {
                 <div>추가</div>
               </div>
             )}
-            <div className="todo-list">
-              <TodoBlock el={el.todoItemList} isCard={props.isCard} />
-            </div>
+            {el.todoItemList !== undefined && (
+              <div className="todo-list">
+                <TodoBlock el={el.todoItemList} isCard={props.isCard} />
+              </div>
+            )}
           </div>
         );
       })}

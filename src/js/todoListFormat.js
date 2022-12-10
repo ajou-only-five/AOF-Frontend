@@ -3,6 +3,7 @@ import { getDate } from "./dateFormat";
 export function todoListFormat(list, maxDate) {
   let tmp = Array.from({ length: maxDate }, (e) => {
     return list.map((el) => {
+      console.log(el);
       return {
         titleId: el.titleId,
         title: el.title,
@@ -10,8 +11,6 @@ export function todoListFormat(list, maxDate) {
       };
     });
   });
-
-  console.log();
 
   list.map((titleEl) =>
     titleEl.todoItemList.map((el) => {
@@ -21,8 +20,6 @@ export function todoListFormat(list, maxDate) {
       ]);
     })
   );
-
-  console.log(tmp);
 
   return tmp;
 }

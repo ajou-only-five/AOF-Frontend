@@ -1,7 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useTodoListContext } from "../../context/todoListContext";
 import { useUserContext } from "../../context/userContext/index";
 import { server_debug } from "../../js/server_url";
+import { todoListFormat } from "../../js/todoListFormat";
 
 import "../../styles/Auth.css";
 
@@ -9,6 +11,34 @@ function Login(props) {
   const { user, setUser } = useUserContext();
   const [account, setAccount] = useState();
   const [password, setPassword] = useState();
+
+  const { todoList, setTodoList } = useTodoListContext();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const fetchTodoList = async (userId) => {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1;
+    const currentMaxDate = new Date(currentYear, currentMonth, 0).getDate();
+
+    const params = {
+      params: {
+        userId: userId,
+        year: currentYear,
+        month: currentMonth,
+      },
+    };
+
+    await axios
+      .get(`${server_debug}/todo/search/todoList`, params)
+      .then((res) => {
+        if (res.status === 200) {
+          setTodoList(Array.from(todoListFormat(res.data, currentMaxDate)));
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,15 +50,24 @@ function Login(props) {
 
     await axios
       .post(`${server_debug}/auth/login`, body)
-      .then((v) => {
-        console.log(v);
+      .then(async (v) => {
         alert("로그인에 성공하였습니다.");
-        setUser(
-          {
-            ...v.data,
-          }
-          // v.data
-        );
+        setUser({
+          ...v.data,
+        });
+
+        try {
+          setIsLoading(true);
+
+          await fetchTodoList(v.data.userId)
+            .then((response) => {
+              setIsLoading(false);
+            })
+            .catch(() => setIsLoading(false));
+        } catch (e) {
+          console.log(e);
+          setIsLoading(false);
+        }
         props.toggleIsLogined();
         props.setIsOpen(false);
       })
