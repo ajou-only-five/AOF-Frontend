@@ -64,6 +64,7 @@ function Mainpage() {
       })
       .catch((e) => {
         console.log(e);
+        // setTodoList(Array.from(todoListFormat([], maxDate)));
       });
   };
   // 설정 년 월에 따른 마지막 날짜 변동
@@ -113,11 +114,6 @@ function Mainpage() {
               <TodayTodoList todoList={todoList[todayDate]} />
 
               {/* CalendarNav TopCenter */}
-              {/* <CalendarNav
-            setTodoModalIsOpen={setTodoModalIsOpen}
-            setTodoData={setTodoData}
-            todoList={todoList}
-          /> */}
               <CalendarNav
                 setTodoModalIsOpen={setTodoModalIsOpen}
                 setTodoData={setTodoData}

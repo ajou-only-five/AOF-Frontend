@@ -1,5 +1,4 @@
 import React from "react";
-import { useTodoListContext } from "../../context/todoListContext";
 
 import "../../styles/Todo.css";
 import TodoList from "./TodoList.jsx";
