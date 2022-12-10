@@ -1,14 +1,18 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
+import { useUserContext } from "../../context/userContext/index";
 import { server_debug } from "../../js/server_url";
 import SearchListview from "./SearchListView";
 
 function Sidebar(props) {
+  const { user } = useUserContext();
+
   const searchListViewDataList = [
     {
       id: 0,
       apiUri: `${server_debug}/search/friend`,
-      userId: 2,
+      userId: user.userId,
       relation: 0,
       titleWhenShow: "친구 목록 닫기",
       titleWhenUnShow: "친구 목록 보기",
@@ -16,7 +20,7 @@ function Sidebar(props) {
     {
       id: 1,
       apiUri: `${server_debug}/search/friendRequested`,
-      userId: 2,
+      userId: user.userId,
       relation: 2,
       titleWhenShow: "친구 요청 목록 닫기",
       titleWhenUnShow: "친구 요청 목록 보기",
@@ -24,7 +28,7 @@ function Sidebar(props) {
     {
       id: 2,
       apiUri: `${server_debug}/search/notFriend`,
-      userId: 2,
+      userId: user.userId,
       titleWhenShow: "닫기",
       titleWhenUnShow: "친구 찾기",
     },

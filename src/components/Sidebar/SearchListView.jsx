@@ -59,6 +59,8 @@ const SearchListview = ({
   const createFriend = (event, targetUserId) => {
     event.preventDefault();
 
+    console.log(userId);
+
     const body = {
       userId: userId,
       followerId: targetUserId,

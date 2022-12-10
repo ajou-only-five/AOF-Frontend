@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useUserContext } from "../../context/userContext/index";
 import { server_debug } from "../../js/server_url";
 
 import "../../styles/Auth.css";
 
 function Login(props) {
+  const { user, setUser } = useUserContext();
   const [account, setAccount] = useState();
   const [password, setPassword] = useState();
 
@@ -21,10 +23,19 @@ function Login(props) {
       .then((v) => {
         console.log(v);
         alert("로그인에 성공하였습니다.");
+        setUser(
+          {
+            ...v.data,
+          }
+          // v.data
+        );
         props.toggleIsLogined();
         props.setIsOpen(false);
       })
-      .catch(() => alert("아이디 혹은 비밀번호를 확인해주세요"));
+      .catch((err) => {
+        console.log(err);
+        alert("아이디 혹은 비밀번호를 확인해주세요");
+      });
   };
 
   return (

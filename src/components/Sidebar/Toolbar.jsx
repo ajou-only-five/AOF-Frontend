@@ -26,6 +26,7 @@ function Toolbar(props) {
         isLogined={props.isLogined}
         toggleIsLogined={props.toggleIsLogined}
         showLoginModal={props.showLoginModal}
+        userId={props.userId}
       />
     </div>
   );
