@@ -8,6 +8,7 @@ import { server_debug } from "../../js/server_url";
 
 function TodoBlock(props) {
   const { todoList, setTodoList } = useTodoListContext();
+
   const deleteContent = async (el) => {
     let body = { contentId: el.contentId };
     console.log(el);
@@ -31,11 +32,40 @@ function TodoBlock(props) {
             .todoItemList.splice(contentIndex, 1);
 
           setTodoList(tmp);
-
-          // setTodoList(tmp);
         }
       });
   };
+
+  const toggleCheck = async (el) => {
+    let body = {
+      contentId: el.contentId,
+      content: el.content,
+      isChecked: el.isChecked === 0 ? 1 : 0,
+      startAt: el.startAt,
+      endAt: el.endAt,
+    };
+
+    await axios.patch(`${server_debug}/todo/item`, body).then((v) => {
+      if (v.status === 200) {
+        let tmp = Array.from(todoList);
+
+        tmp[getDate(el.startAt) - 1]
+          .find((element) => element.titleId === el.titleId)
+          .todoItemList.find(
+            (item) => item.contentId === el.contentId
+          ).isChecked =
+          tmp[getDate(el.startAt) - 1]
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.find((item) => item.contentId === el.contentId)
+            .isChecked === 0
+            ? 1
+            : 0;
+
+        setTodoList(tmp);
+      }
+    });
+  };
+
   return (
     <div>
       {props.el?.map((el) => {
@@ -43,6 +73,9 @@ function TodoBlock(props) {
           <div key={el.contentId} className="todo-block">
             {!props.isCard && (
               <div
+                onClick={() => {
+                  toggleCheck(el);
+                }}
                 className={
                   el.isChecked
                     ? "check-circle check-circle-complete"
