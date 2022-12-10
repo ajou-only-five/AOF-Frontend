@@ -48,7 +48,7 @@ function Register(props) {
     let body = { account: account };
 
     await axios
-      .post(`${server_debug}/valid/accountName/exists`, body)
+      .post(`${server_debug}/valid/account/exists`, body)
       .then((v) => {
         alert("사용가능한 아이디 입니다.");
         setIsValidAccount(true);

@@ -6,6 +6,7 @@ function TodoList(props) {
   return (
     <div className="todo-title-list">
       {todoData.map((el, i) => {
+        console.log(el.isChecked);
         return (
           <div key={i}>
             <div style={{ color: el.color }} className="todo-title">

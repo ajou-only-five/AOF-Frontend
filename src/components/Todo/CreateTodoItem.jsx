@@ -25,9 +25,12 @@ function CreateTodoItem(props) {
                 startAt: startAt,
                 endAt: endtAt})
             .then((v) => {
-            console.log(v);
+                console.log(v);
             })
-            .catch((err) => alert(err));
+            .catch((err) => {
+                console.log(err);
+                alert(err);
+            });
             props.clicked(false);
             // props.setIsLogined(true);
         }

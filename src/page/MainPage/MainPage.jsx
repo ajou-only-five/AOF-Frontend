@@ -14,12 +14,14 @@ import CalendarNav from "../../components/CalendarNavigator/CalendarNav";
 import TodoList from "../../components/Todo/TodoList.jsx";
 import MonthPicker from "../../components/MonthPicker/MonthPicker";
 
-import newTodoList from "./newTodoList.json";
+import newTodoList from "./newTodoList.json"; // 임시 데이터
 
 import { todoListFormat } from "../../js/todoListFormat";
+import axios from "axios";
+import { server_debug } from "../../js/server_url";
 
 function Mainpage() {
-  const [isLogined, setIsLogined] = useState(false);
+  const [isLogined, setIsLogined] = useState(false); // false
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [registerIsOpen, setRegisterIsOpen] = useState(false);
 
@@ -51,6 +53,16 @@ function Mainpage() {
   const toggleIsLogined = () => {
     setIsLogined(!isLogined);
   };
+
+  // const getTdodData = async (e) => {
+  //   await axios
+  //     .get(`${server_debug}`,{ headers: { Authorization: `${accessToken}`}, params:{date: timestamp}})
+  //     .then((v) => {
+  //       console.log(v);
+  //     })
+  //     .catch((err) => alert(err));
+  // };
+  // getTdodData();
 
   return (
     <div>
