@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { server_debug } from "../../js/server_url";
 
 const SearchListview = ({
   initialApiUri: apiUri,
@@ -12,23 +13,127 @@ const SearchListview = ({
   const [search, setSearch] = useState("");
   const [dataList, setDataList] = useState([]);
 
-  const createButtonByRelation = (relation) => {
+  const createButtonByRelation = (relation, targetUserId) => {
     switch (relation) {
+      case 0:
+        return (
+          <button onClick={(event) => deleteFriend(event, targetUserId)}>
+            친구 삭제
+          </button>
+        );
       case 1:
-        return <button>친구 요청됨</button>;
+        return (
+          <button
+            onClick={(event) =>
+              deleteFriendRequest(event, userId, targetUserId)
+            }
+          >
+            요청 취소
+          </button>
+        );
       case 2:
         return (
           <div>
-            <button>수락</button>
-            <button>거절</button>
+            <button onClick={(event) => createFriend(event, targetUserId)}>
+              수락
+            </button>
+            <button
+              onClick={(event) => deleteFriendRequest(event, targetUserId)}
+            >
+              거절
+            </button>
           </div>
         );
       case 3:
-        return <button>친구 추가</button>;
+        return (
+          <button onClick={(event) => createFriendRequest(event, targetUserId)}>
+            친구 추가
+          </button>
+        );
 
       default:
         return;
     }
+  };
+
+  const createFriend = (event, targetUserId) => {
+    event.preventDefault();
+
+    const body = {
+      userId: userId,
+      followerId: targetUserId,
+    };
+
+    axios
+      .post(`${server_debug}/follow`, body)
+      .then((res) => {
+        if (res.status === 200) {
+          setDataList([...res.data]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const deleteFriend = (event, targetUserId) => {
+    event.preventDefault();
+
+    const body = {
+      userId: userId,
+      friendId: targetUserId,
+    };
+
+    axios
+      .delete(`${server_debug}/follow`, body)
+      .then((res) => {
+        if (res.status === 200) {
+          setDataList([...res.data]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const createFriendRequest = (event, followeeID) => {
+    event.preventDefault();
+
+    const body = {
+      userId: userId,
+      requesteeId: followeeID,
+    };
+
+    axios
+      .post(`${server_debug}/followRequest`, body)
+      .then((res) => {
+        if (res.status === 200) {
+          setDataList([...res.data]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const deleteFriendRequest = (event, followerId, followeeId) => {
+    event.preventDefault();
+
+    const body = {
+      followerId: followerId,
+      followeeId: followeeId,
+    };
+
+    axios
+      .delete(`${server_debug}/friendRequest`, body)
+      .then((res) => {
+        if (res.status === 200) {
+          setDataList([...res.data]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   const fetchListData = () => {
@@ -104,7 +209,7 @@ const SearchListview = ({
                 }}
               >
                 <div>{el.NICKNAME}</div>
-                {createButtonByRelation(el.RELATION)}
+                {createButtonByRelation(el.RELATION, el.ID)}
                 <div></div>
               </div>
             );

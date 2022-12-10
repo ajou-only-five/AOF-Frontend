@@ -4,7 +4,8 @@ import close from "../../images/icons/close.png";
 import { useState } from "react";
 
 function MyModal(props) {
-  const [createNewItemButtonClicked, setCreateNewItemButtonClicked] = useState(false);
+  const [createNewItemButtonClicked, setCreateNewItemButtonClicked] =
+    useState(false);
   const closeModal = () => {
     props.setIsOpen(false);
   };
@@ -42,12 +43,7 @@ function MyModal(props) {
           onClick={closeModal}
         />
       </div>
-      {props.isLogined ? (<div>
-        <CreateTodoItem state={createNewItemButtonClicked} clicked={setCreateNewItemButtonClicked} setIsLogined={props.setIsLogined} />
-      </div>) : <></>}
-      {!createNewItemButtonClicked ? (<div className={props.isAnimation ? "modal-element-animation" : ""}>
-        {props.el}
-      </div>) : (<></>)}
+      {props.el}
     </div>
   );
 }
