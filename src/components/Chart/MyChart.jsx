@@ -10,7 +10,7 @@ function MyChart(props) {
   const { onlyFiveList } = useOnlyFiveContext();
   const [countData, setCountData] = useState(sortRank(onlyFiveList));
 
-  const maxCount = Math.max(...countData.map((el) => el.ITEM_NUM));
+  const maxCount = Math.max(...countData?.map((el) => el.ITEM_NUM));
   const chartHeight = 400;
   const barMaxHeight = 250;
   const barWidth = 50;
@@ -27,7 +27,6 @@ function MyChart(props) {
         preserveAspectRatio="xMidYMax meet"
       >
         {countData.map((el, idx) => {
-
           const barHeight = barMaxHeight * (el.ITEM_NUM / maxCount);
 
           return (

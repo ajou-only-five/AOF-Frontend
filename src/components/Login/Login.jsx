@@ -3,16 +3,18 @@ import React, { useState } from "react";
 import { useFriendListContext } from "../../context/friendListContext";
 import { useTodoListContext } from "../../context/todoListContext";
 import { useUserContext } from "../../context/userContext/index";
+import { useOnlyFiveContext } from "../../context/onlyFiveContext";
 import { server_debug } from "../../js/server_url";
 import { todoListFormat } from "../../js/todoListFormat";
 
 import "../../styles/Auth.css";
 
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 function Login(props) {
   const { setUser } = useUserContext();
   const { friendList, setFriendList } = useFriendListContext();
+  const { setOnlyFiveList } = useOnlyFiveContext();
   const [account, setAccount] = useState();
   const [password, setPassword] = useState();
 
@@ -82,7 +84,8 @@ function Login(props) {
       .get(`${server_debug}/onlyFive`, params)
       .then(async (res) => {
         if (res.status === 200) {
-          console.log("res", res);
+          console.log(res);
+          setOnlyFiveList(res.data);
         }
       })
       .catch((e) => {
@@ -107,7 +110,6 @@ function Login(props) {
         });
 
         try {
-          console.log(v.data.userId);
           setIsLoading(true);
 
           await fetchTodoList(v.data.userId).catch(() => setIsLoading(false));

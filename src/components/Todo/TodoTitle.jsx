@@ -6,6 +6,8 @@ import { getDate } from "../../js/dateFormat";
 
 import addBox from "../../images/icons/addBox.png";
 
+axios.defaults.withCredentials = true;
+
 function TodoTitle(props) {
   const { todoList, setTodoList } = useTodoListContext();
   const [isCreate, setIsCreate] = useState(false);
