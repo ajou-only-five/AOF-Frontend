@@ -89,11 +89,12 @@ function Mainpage() {
 
   const toggleIsLogined = () => {
     // console.log(user);
-    if (user.userId === undefined) {
-      setIsLogined(false);
-      return;
-    }
-    setIsLogined(true);
+    // if (user.userId === undefined) {
+    //   setIsLogined(false);
+    //   return;
+    // }
+    // setIsLogined(true);
+    setIsLogined(!isLogined);
   };
 
   return (

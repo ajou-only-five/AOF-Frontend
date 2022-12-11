@@ -111,9 +111,9 @@ function TodoContent(props) {
           }}
         >
           {!isUpdate ? (
-            <span class="material-symbols-outlined">edit_square</span>
+            <span className="material-symbols-outlined">edit_square</span>
           ) : (
-            <span class="material-symbols-outlined">check_circle</span>
+            <span className="material-symbols-outlined">check_circle</span>
           )}
         </div>
       )}
@@ -123,7 +123,7 @@ function TodoContent(props) {
             deleteContent(props.data);
           }}
         >
-          <span class="material-symbols-outlined">close</span>
+          <span className="material-symbols-outlined">close</span>
         </div>
       )}
     </div>

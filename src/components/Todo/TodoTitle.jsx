@@ -79,9 +79,9 @@ function TodoTitle(props) {
         }}
       >
         {!isCreate ? (
-          <span class="material-symbols-outlined">add_circle</span>
+          <span className="material-symbols-outlined">add_circle</span>
         ) : (
-          <span class="material-symbols-outlined">cancel</span>
+          <span className="material-symbols-outlined">cancel</span>
         )}
       </div>
       <div
@@ -89,7 +89,7 @@ function TodoTitle(props) {
           deleteTodoTitle();
         }}
       >
-        <span class="material-symbols-outlined">delete</span>
+        <span className="material-symbols-outlined">delete</span>
       </div>
     </div>
   );
