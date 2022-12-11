@@ -54,15 +54,15 @@ function Mainpage() {
     setIsLogined(!isLogined);
   };
 
-  // const getTdodData = async (e) => {
-  //   await axios
-  //     .get(`${server_debug}`,{ headers: { Authorization: `${accessToken}`}, params:{date: timestamp}})
-  //     .then((v) => {
-  //       console.log(v);
-  //     })
-  //     .catch((err) => alert(err));
-  // };
-  // getTdodData();
+  const getTdodData = async (e) => {
+    await axios
+      .get(`${server_debug}`,{ params:{date: today} }) // { headers: { Authorization: `${accessToken}`}, params:{date: timestamp}}
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch((err) => alert(err));
+  };
+  getTdodData();
 
   return (
     <div>
