@@ -14,8 +14,6 @@ export function todoListFormat(list, maxDate) {
 
   list.map((titleEl, i) =>
     titleEl.todoItemList.map((el) => {
-      // console.log(tmp[getDate(el.startAt) - 1]);
-      // console.log(tmp[getDate(el.startAt) - 1][i]);
       return (tmp[getDate(el.startAt) - 1][i].todoItemList = [
         ...tmp[getDate(el.startAt) - 1][i].todoItemList,
         { ...el },

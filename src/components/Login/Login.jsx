@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useFriendListContext } from "../../context/friendListContext";
 import { useTodoListContext } from "../../context/todoListContext";
 import { useUserContext } from "../../context/userContext/index";
 import { server_debug } from "../../js/server_url";
@@ -8,11 +9,12 @@ import { todoListFormat } from "../../js/todoListFormat";
 import "../../styles/Auth.css";
 
 function Login(props) {
-  const { user, setUser } = useUserContext();
+  const { setUser } = useUserContext();
+  const { friendList, setFriendList } = useFriendListContext();
   const [account, setAccount] = useState();
   const [password, setPassword] = useState();
 
-  const { todoList, setTodoList } = useTodoListContext();
+  const { setTodoList } = useTodoListContext();
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchTodoList = async (userId) => {
@@ -41,6 +43,35 @@ function Login(props) {
       });
   };
 
+  const fetchFriendList = async (userId) => {
+    const params = {
+      params: {
+        userId: userId,
+      },
+    };
+
+    await axios
+      .get(`${server_debug}/search/friend`, params)
+      .then(async (res) => {
+        if (res.status === 200) {
+          let friendList = res.data;
+          await axios
+          .get(`${server_debug}/search/friendRequested`, params)
+          .then(async (res) => {
+            let friendRequestedList = res.data;
+
+            setFriendList([
+              ...friendList,
+              ...friendRequestedList
+            ]);
+          })
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -61,6 +92,8 @@ function Login(props) {
           setIsLoading(true);
 
           await fetchTodoList(v.data.userId)
+            .catch(() => setIsLoading(false));
+          await fetchFriendList(v.data.userId)
             .then((response) => {
               setIsLoading(false);
             })

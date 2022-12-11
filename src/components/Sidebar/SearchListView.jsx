@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useFriendListContext } from "../../context/friendListContext";
 import { server_debug } from "../../js/server_url";
 
 const SearchListview = ({
@@ -9,9 +10,32 @@ const SearchListview = ({
   titleWhenShow,
   titleWhenUnShow,
 }) => {
+  const { friendList, setFriendList } = useFriendListContext();
   const [isShowing, setIsShowing] = useState(false);
   const [search, setSearch] = useState("");
-  const [dataList, setDataList] = useState([]);
+  const [searchNotFriendList, setSearchNotFriendList] = useState([]);
+
+  const showList = () => {
+    let dataList = null;
+
+    switch (relation) {
+      case 0:
+        dataList = friendList.filter((element) => element.RELATION === relation);
+        break;
+      case 1:
+        break;
+      case 2:
+        dataList = friendList.filter((element) => element.RELATION === relation);
+        break;
+      case 3:
+        break;
+      default:
+        dataList = [...searchNotFriendList];
+        break;
+    }
+
+    return dataList;
+  }
 
   const createButtonByRelation = (relation, targetUserId) => {
     switch (relation) {
@@ -25,7 +49,7 @@ const SearchListview = ({
         return (
           <button
             onClick={(event) =>
-              deleteFriendRequest(event, userId, targetUserId)
+              deleteFriendRequest(event, targetUserId)
             }
           >
             요청 취소
@@ -38,7 +62,7 @@ const SearchListview = ({
               수락
             </button>
             <button
-              onClick={(event) => deleteFriendRequest(event, targetUserId)}
+              onClick={(event) => deleteFriendRequested(event, targetUserId)}
             >
               거절
             </button>
@@ -70,7 +94,11 @@ const SearchListview = ({
       .post(`${server_debug}/follow`, body)
       .then((res) => {
         if (res.status === 200) {
-          setDataList([...res.data]);
+          let index = friendList.findIndex((friend) => friend.ID === targetUserId);
+
+          let temp = Array.from(friendList);
+          temp[index].RELATION = 0;
+          setFriendList([...temp]);
         }
       })
       .catch((e) => {
@@ -82,15 +110,20 @@ const SearchListview = ({
     event.preventDefault();
 
     const body = {
-      userId: userId,
+      data : {userId: userId,
       friendId: targetUserId,
+      }
     };
 
     axios
       .delete(`${server_debug}/follow`, body)
       .then((res) => {
         if (res.status === 200) {
-          setDataList([...res.data]);
+          let index = friendList.findIndex((friend) => friend.ID === targetUserId);
+
+          let temp = Array.from(friendList);
+          temp.splice(index, 1);
+          setFriendList([...temp]);
         }
       })
       .catch((e) => {
@@ -98,58 +131,75 @@ const SearchListview = ({
       });
   };
 
-  const createFriendRequest = (event, followeeID) => {
+  const deleteFriendRequested = (event, targetUserId) => {
+    event.preventDefault();
+
+    const body = {
+      data: {
+        requesterId: targetUserId,
+        userId: userId,
+      }
+    };
+
+    axios
+      .delete(`${server_debug}/followRequest/requested`, body)
+      .then((res) => {
+        if (res.status === 200) {
+          let index = friendList.findIndex((friend) => friend.ID === targetUserId);
+
+          let temp = Array.from(friendList);
+          temp.splice(index, 1);
+          setFriendList([...temp]);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const createFriendRequest = (event, targetUserId) => {
     event.preventDefault();
 
     const body = {
       userId: userId,
-      requesteeId: followeeID,
+      requesteeId: targetUserId,
     };
+
+    console.log(body);
 
     axios
       .post(`${server_debug}/followRequest`, body)
       .then((res) => {
-        if (res.status === 200) {
-          setDataList([...res.data]);
-        }
+        let index = searchNotFriendList.findIndex((user) => user.ID === targetUserId);
+
+        let temp = Array.from(searchNotFriendList);
+        temp[index].RELATION = 1;
+        setSearchNotFriendList([...temp]);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const deleteFriendRequest = (event, followerId, followeeId) => {
+  const deleteFriendRequest = (event, targetUserId) => {
     event.preventDefault();
 
     const body = {
-      followerId: followerId,
-      followeeId: followeeId,
-    };
-
-    axios
-      .delete(`${server_debug}/friendRequest`, body)
-      .then((res) => {
-        if (res.status === 200) {
-          setDataList([...res.data]);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const fetchListData = () => {
-    const params = {
-      params: {
+      data: {
         userId: userId,
-      },
+        requesteeId: targetUserId
+      }
     };
 
     axios
-      .get(apiUri, params)
+      .delete(`${server_debug}/followRequest/request`, body)
       .then((res) => {
         if (res.status === 200) {
-          setDataList([...res.data]);
+          let index = searchNotFriendList.findIndex((user) => user.ID === targetUserId);
+
+          let temp = Array.from(searchNotFriendList);
+          temp[index].RELATION = 3;
+          setSearchNotFriendList([...temp]);
         }
       })
       .catch((e) => {
@@ -157,7 +207,7 @@ const SearchListview = ({
       });
   };
 
-  const searchNickname = (event) => {
+  const searchNotFriendByNickname = (event) => {
     event.preventDefault();
     const params = {
       params: {
@@ -170,7 +220,8 @@ const SearchListview = ({
       .get(apiUri, params)
       .then((res) => {
         if (res.status === 200) {
-          setDataList([...res.data]);
+          console.log(res);
+          setSearchNotFriendList([...res.data]);
         }
       })
       .catch((e) => {
@@ -179,9 +230,6 @@ const SearchListview = ({
   };
 
   const handleViewOnClick = () => {
-    if (!isShowing && relation !== undefined) {
-      fetchListData();
-    }
     setIsShowing(!isShowing);
   };
 
@@ -193,29 +241,31 @@ const SearchListview = ({
 
       {isShowing && (
         <div>
-          <form onSubmit={searchNickname}>
+          <form onSubmit={searchNotFriendByNickname}>
             <input
               className="friend-search-box"
               value={search}
               onChange={(e) => setSearch(e.currentTarget.value)}
             />
           </form>
-          {dataList.map((el, i) => {
-            console.log(el);
-            return (
-              <div
-                key={i}
-                className="friend-box"
-                onClick={() => {
-                  console.log(el.NICKNAME);
-                }}
-              >
-                <div>{el.NICKNAME}</div>
-                {createButtonByRelation(el.RELATION, el.ID)}
-                <div></div>
-              </div>
-            );
-          })}
+          {
+            showList()?.map((el, i) => {
+              console.log(el);
+              return (
+                <div
+                  key={i}
+                  className="friend-box"
+                  onClick={() => {
+                    console.log(el.NICKNAME);
+                  }}
+                >
+                  <div>{el.NICKNAME}</div>
+                  {createButtonByRelation(el.RELATION, el.ID)}
+                  <div></div>
+                </div>
+              );
+            })
+          }
         </div>
       )}
     </div>
