@@ -78,54 +78,58 @@ function TodoContent(props) {
 
   return (
     <div className="todo-block">
-      {!props.isCard && (
-        <div
-          onClick={() => {
-            toggleCheck(props.data);
-          }}
-          className={
-            props.data.isChecked
-              ? "check-circle check-circle-complete"
-              : "check-circle"
-          }
-        >
-          {props.data.isChecked !== 0 && <img src={check} alt="check" />}
-        </div>
-      )}
-      {!isUpdate ? (
-        <div className={props.data.isChecked ? "todo todo-complete" : "todo"}>
-          {props.data.content}
-        </div>
-      ) : (
-        <div>
-          <form>
-            <input value={props.data.content} />
-            <button>수정</button>
-          </form>
-        </div>
-      )}
-      {!props.isCard && (
-        <div
-          onClick={() => {
-            setIsUpdate(!isUpdate);
-          }}
-        >
-          {!isUpdate ? (
-            <span className="material-symbols-outlined">edit_square</span>
-          ) : (
-            <span className="material-symbols-outlined">check_circle</span>
-          )}
-        </div>
-      )}
-      {!props.isCard && (
-        <div
-          onClick={() => {
-            deleteContent(props.data);
-          }}
-        >
-          <span className="material-symbols-outlined">close</span>
-        </div>
-      )}
+      <div style={{ display: "flex", gap: 5 }}>
+        {!props.isCard && (
+          <div
+            onClick={() => {
+              toggleCheck(props.data);
+            }}
+            className={
+              props.data.isChecked
+                ? "check-circle check-circle-complete"
+                : "check-circle"
+            }
+          >
+            {props.data.isChecked !== 0 && <img src={check} alt="check" />}
+          </div>
+        )}
+        {!isUpdate ? (
+          <div className={props.data.isChecked ? "todo todo-complete" : "todo"}>
+            {props.data.content}
+          </div>
+        ) : (
+          <div>
+            <form>
+              <input value={props.data.content} />
+              <button>수정</button>
+            </form>
+          </div>
+        )}
+      </div>
+      <div style={{ display: "flex", gap: 5 }}>
+        {!props.isCard && (
+          <div
+            onClick={() => {
+              setIsUpdate(!isUpdate);
+            }}
+          >
+            {!isUpdate ? (
+              <span className="material-symbols-outlined">edit_square</span>
+            ) : (
+              <span className="material-symbols-outlined">check_circle</span>
+            )}
+          </div>
+        )}
+        {!props.isCard && (
+          <div
+            onClick={() => {
+              deleteContent(props.data);
+            }}
+          >
+            <span className="material-symbols-outlined">close</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

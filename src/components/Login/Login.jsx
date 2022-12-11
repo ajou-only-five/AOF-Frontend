@@ -8,6 +8,8 @@ import { todoListFormat } from "../../js/todoListFormat";
 
 import "../../styles/Auth.css";
 
+// axios.defaults.withCredentials = true;
+
 function Login(props) {
   const { setUser } = useUserContext();
   const { friendList, setFriendList } = useFriendListContext();
@@ -60,11 +62,8 @@ function Login(props) {
             .then(async (res) => {
               let friendRequestedList = res.data;
 
-              setFriendList([
-                ...friendList,
-                ...friendRequestedList
-              ]);
-            })
+              setFriendList([...friendList, ...friendRequestedList]);
+            });
         }
       })
       .catch((e) => {
@@ -83,13 +82,13 @@ function Login(props) {
       .get(`${server_debug}/onlyFive`, params)
       .then(async (res) => {
         if (res.status === 200) {
-          console.log('res', res);
+          console.log("res", res);
         }
       })
       .catch((e) => {
         console.log(e);
       });
-  }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -101,18 +100,18 @@ function Login(props) {
     await axios
       .post(`${server_debug}/auth/login`, body)
       .then(async (v) => {
+        console.log(v);
         alert("로그인에 성공하였습니다.");
         setUser({
           ...v.data,
         });
 
         try {
+          console.log(v.data.userId);
           setIsLoading(true);
 
-          await fetchTodoList(v.data.userId)
-            .catch(() => setIsLoading(false));
-          await fetchFriendList(v.data.userId)
-            .catch(() => setIsLoading(false));
+          await fetchTodoList(v.data.userId).catch(() => setIsLoading(false));
+          await fetchFriendList(v.data.userId).catch(() => setIsLoading(false));
           await fetchOnlyFiveList(v.data.userId)
             .then((response) => {
               setIsLoading(false);
