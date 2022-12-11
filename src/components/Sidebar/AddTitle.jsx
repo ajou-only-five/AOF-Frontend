@@ -12,10 +12,11 @@ function AddTitle() {
 
   const createNewTitle = async () => {
     let body = {
-      userId: user.userId,
       title: title,
       color: titleColor,
     };
+
+    console.log(body);
 
     await axios
       .post(`${server_debug}/todo/title`, body)

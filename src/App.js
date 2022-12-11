@@ -1,12 +1,15 @@
 import "./App.css";
 import "./styles/Modal.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import axios from "axios";
 
 import MainPage from "./page/MainPage/MainPage";
 import { UserProvider } from "./context/userContext";
 import { TodoListProvider } from "./context/todoListContext";
 import { FriendListProvider } from "./context/friendListContext";
 import { OnlyFiveProvider } from "./context/onlyFiveContext";
+
+axios.defaults.withCredentials = true;
 
 function App() {
   return (

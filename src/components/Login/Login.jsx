@@ -9,8 +9,6 @@ import { todoListFormat } from "../../js/todoListFormat";
 
 import "../../styles/Auth.css";
 
-axios.defaults.withCredentials = true;
-
 function Login(props) {
   const { setUser } = useUserContext();
   const { friendList, setFriendList } = useFriendListContext();
