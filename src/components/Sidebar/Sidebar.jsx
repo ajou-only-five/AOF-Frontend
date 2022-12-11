@@ -1,6 +1,4 @@
-import axios from "axios";
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { useUserContext } from "../../context/userContext/index";
 import { server_debug } from "../../js/server_url";
 import AddTitle from "./AddTitle";
@@ -8,8 +6,6 @@ import SearchListview from "./SearchListView";
 
 function Sidebar(props) {
   const { user } = useUserContext();
-
-  const [addTitle, setAddTitle] = useState(false);
 
   const searchListViewDataList = [
     {
@@ -50,14 +46,7 @@ function Sidebar(props) {
           titleWhenUnShow={data.titleWhenUnShow}
         />
       ))}
-      <li
-        onClick={() => {
-          setAddTitle(!addTitle);
-        }}
-      >
-        타이틀 추가
-      </li>
-      {addTitle && <AddTitle />}
+      <AddTitle />
     </div>
   );
 }

@@ -8,7 +8,8 @@ function AddTitle() {
   const { user } = useUserContext();
   const { todoList, setTodoList } = useTodoListContext();
   const [title, setTitle] = useState();
-  const [titleColor, setTitleColor] = useState();
+  const [titleColor, setTitleColor] = useState("#ffffff");
+  const [addTitle, setAddTitle] = useState(false);
 
   const createNewTitle = async () => {
     let body = {
@@ -32,8 +33,6 @@ function AddTitle() {
             });
           }
 
-          console.log(temp);
-
           setTodoList(temp);
         }
       })
@@ -43,21 +42,33 @@ function AddTitle() {
   };
   return (
     <div>
-      <form>
-        <input onChange={(e) => setTitle(e.currentTarget.value)} />
-        <input
-          type="color"
-          onChange={(e) => setTitleColor(e.currentTarget.value)}
-        />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            createNewTitle();
-          }}
-        >
-          타이틀 추가
-        </button>
-      </form>
+      <li
+        onClick={() => {
+          setAddTitle(!addTitle);
+        }}
+      >
+        {!addTitle ? "타이틀 추가" : "타이틀 추가 닫기"}
+      </li>
+      {addTitle && (
+        <div>
+          <form>
+            <input onChange={(e) => setTitle(e.currentTarget.value)} />
+            <input
+              type="color"
+              defaultValue={"#ffffff"}
+              onChange={(e) => setTitleColor(e.currentTarget.value)}
+            />
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                createNewTitle();
+              }}
+            >
+              타이틀 추가
+            </button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }

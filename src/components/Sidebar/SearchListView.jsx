@@ -1,7 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useFriendListContext } from "../../context/friendListContext";
+import { useOnlyFiveContext } from "../../context/onlyFiveContext";
+import { useTodoListContext } from "../../context/todoListContext";
 import { server_debug } from "../../js/server_url";
+import { todoListFormat } from "../../js/todoListFormat";
 
 const SearchListview = ({
   initialApiUri: apiUri,
@@ -11,6 +14,8 @@ const SearchListview = ({
   titleWhenUnShow,
 }) => {
   const { friendList, setFriendList } = useFriendListContext();
+  const { setTodoList } = useTodoListContext();
+  const { setOnlyFiveList } = useOnlyFiveContext();
   const [isShowing, setIsShowing] = useState(false);
   const [search, setSearch] = useState("");
   const [searchNotFriendList, setSearchNotFriendList] = useState([]);
@@ -20,12 +25,16 @@ const SearchListview = ({
 
     switch (relation) {
       case 0:
-        dataList = friendList.filter((element) => element.RELATION === relation);
+        dataList = friendList.filter(
+          (element) => element.RELATION === relation
+        );
         break;
       case 1:
         break;
       case 2:
-        dataList = friendList.filter((element) => element.RELATION === relation);
+        dataList = friendList.filter(
+          (element) => element.RELATION === relation
+        );
         break;
       case 3:
         break;
@@ -35,7 +44,7 @@ const SearchListview = ({
     }
 
     return dataList;
-  }
+  };
 
   const createButtonByRelation = (relation, targetUserId) => {
     switch (relation) {
@@ -47,11 +56,7 @@ const SearchListview = ({
         );
       case 1:
         return (
-          <button
-            onClick={(event) =>
-              deleteFriendRequest(event, targetUserId)
-            }
-          >
+          <button onClick={(event) => deleteFriendRequest(event, targetUserId)}>
             요청 취소
           </button>
         );
@@ -80,21 +85,23 @@ const SearchListview = ({
     }
   };
 
-  const createFriend = (event, targetUserId) => {
+  const createFriend = async (event, targetUserId) => {
     event.preventDefault();
 
-    console.log(userId);
+    // console.log(userId);
 
     const body = {
       userId: userId,
       followerId: targetUserId,
     };
 
-    axios
+    await axios
       .post(`${server_debug}/follow`, body)
       .then((res) => {
         if (res.status === 200) {
-          let index = friendList.findIndex((friend) => friend.ID === targetUserId);
+          let index = friendList.findIndex(
+            (friend) => friend.ID === targetUserId
+          );
 
           let temp = Array.from(friendList);
           temp[index].RELATION = 0;
@@ -106,20 +113,20 @@ const SearchListview = ({
       });
   };
 
-  const deleteFriend = (event, targetUserId) => {
+  const deleteFriend = async (event, targetUserId) => {
     event.preventDefault();
 
     const body = {
-      data : {userId: userId,
-      friendId: targetUserId,
-      }
+      data: { userId: userId, friendId: targetUserId },
     };
 
-    axios
+    await axios
       .delete(`${server_debug}/follow`, body)
       .then((res) => {
         if (res.status === 200) {
-          let index = friendList.findIndex((friend) => friend.ID === targetUserId);
+          let index = friendList.findIndex(
+            (friend) => friend.ID === targetUserId
+          );
 
           let temp = Array.from(friendList);
           temp.splice(index, 1);
@@ -131,21 +138,23 @@ const SearchListview = ({
       });
   };
 
-  const deleteFriendRequested = (event, targetUserId) => {
+  const deleteFriendRequested = async (event, targetUserId) => {
     event.preventDefault();
 
     const body = {
       data: {
         requesterId: targetUserId,
         userId: userId,
-      }
+      },
     };
 
-    axios
+    await axios
       .delete(`${server_debug}/followRequest/requested`, body)
       .then((res) => {
         if (res.status === 200) {
-          let index = friendList.findIndex((friend) => friend.ID === targetUserId);
+          let index = friendList.findIndex(
+            (friend) => friend.ID === targetUserId
+          );
 
           let temp = Array.from(friendList);
           temp.splice(index, 1);
@@ -157,7 +166,7 @@ const SearchListview = ({
       });
   };
 
-  const createFriendRequest = (event, targetUserId) => {
+  const createFriendRequest = async (event, targetUserId) => {
     event.preventDefault();
 
     const body = {
@@ -167,10 +176,12 @@ const SearchListview = ({
 
     console.log(body);
 
-    axios
+    await axios
       .post(`${server_debug}/followRequest`, body)
       .then((res) => {
-        let index = searchNotFriendList.findIndex((user) => user.ID === targetUserId);
+        let index = searchNotFriendList.findIndex(
+          (user) => user.ID === targetUserId
+        );
 
         let temp = Array.from(searchNotFriendList);
         temp[index].RELATION = 1;
@@ -181,21 +192,23 @@ const SearchListview = ({
       });
   };
 
-  const deleteFriendRequest = (event, targetUserId) => {
+  const deleteFriendRequest = async (event, targetUserId) => {
     event.preventDefault();
 
     const body = {
       data: {
         userId: userId,
-        requesteeId: targetUserId
-      }
+        requesteeId: targetUserId,
+      },
     };
 
-    axios
+    await axios
       .delete(`${server_debug}/followRequest/request`, body)
       .then((res) => {
         if (res.status === 200) {
-          let index = searchNotFriendList.findIndex((user) => user.ID === targetUserId);
+          let index = searchNotFriendList.findIndex(
+            (user) => user.ID === targetUserId
+          );
 
           let temp = Array.from(searchNotFriendList);
           temp[index].RELATION = 3;
@@ -207,7 +220,7 @@ const SearchListview = ({
       });
   };
 
-  const searchNotFriendByNickname = (event) => {
+  const searchNotFriendByNickname = async (event) => {
     event.preventDefault();
     const params = {
       params: {
@@ -216,7 +229,7 @@ const SearchListview = ({
       },
     };
 
-    axios
+    await axios
       .get(apiUri, params)
       .then((res) => {
         if (res.status === 200) {
@@ -231,6 +244,36 @@ const SearchListview = ({
 
   const handleViewOnClick = () => {
     setIsShowing(!isShowing);
+  };
+
+  const getFriendTodoList = async (userId) => {
+    const params = {
+      params: {
+        userId: userId,
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+      },
+    };
+
+    await axios
+      .get(`${server_debug}/todo/search/todoList`, params)
+      .then((v) => {
+        console.log(v);
+        if (v.status === 200) {
+          setTodoList(Array.from(todoListFormat(v.data, 30)));
+        }
+      })
+      .catch((e) => console.log(e));
+
+    await axios
+      .get(`${server_debug}/onlyFive`, params)
+      .then((v) => {
+        console.log(v);
+        if (v.status === 200) {
+          setOnlyFiveList(v.data);
+        }
+      })
+      .catch((e) => console.log(e));
   };
 
   return (
@@ -248,24 +291,24 @@ const SearchListview = ({
               onChange={(e) => setSearch(e.currentTarget.value)}
             />
           </form>
-          {
-            showList()?.map((el, i) => {
-              console.log(el);
-              return (
-                <div
-                  key={i}
-                  className="friend-box"
-                  onClick={() => {
-                    console.log(el.NICKNAME);
-                  }}
-                >
-                  <div>{el.NICKNAME}</div>
-                  {createButtonByRelation(el.RELATION, el.ID)}
-                  <div></div>
-                </div>
-              );
-            })
-          }
+          {showList()?.map((el, i) => {
+            console.log(el);
+            return (
+              <div
+                key={i}
+                className="friend-box"
+                onClick={() => {
+                  console.log(el.NICKNAME);
+                  console.log(el.ID);
+                  getFriendTodoList(el.ID);
+                }}
+              >
+                <div>{el.NICKNAME}</div>
+                {createButtonByRelation(el.RELATION, el.ID)}
+                <div></div>
+              </div>
+            );
+          })}
         </div>
       )}
     </div>

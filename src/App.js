@@ -21,6 +21,7 @@ function App() {
               <OnlyFiveProvider>
                 <Routes>
                   <Route exact path="/" element={<MainPage />} />
+                  <Route exact path="/:id" element={<MainPage />} />
                 </Routes>
               </OnlyFiveProvider>
             </FriendListProvider>

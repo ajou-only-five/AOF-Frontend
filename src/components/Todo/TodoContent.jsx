@@ -19,6 +19,7 @@ function TodoContent(props) {
     };
 
     await axios.patch(`${server_debug}/todo/item`, body).then((v) => {
+      console.log(v);
       if (v.status === 200) {
         let tmp = Array.from(todoList);
 
@@ -45,6 +46,7 @@ function TodoContent(props) {
     await axios
       .delete(`${server_debug}/todo/item`, { data: body })
       .then((v) => {
+        console.log(v);
         if (v.status === 200) {
           let tmp = Array.from(todoList);
 
@@ -79,7 +81,7 @@ function TodoContent(props) {
   return (
     <div className="todo-block">
       <div style={{ display: "flex", gap: 5 }}>
-        {!props.isCard && (
+        {/* {!props.isCard && (
           <div
             onClick={() => {
               toggleCheck(props.data);
@@ -91,6 +93,17 @@ function TodoContent(props) {
             }
           >
             {props.data.isChecked !== 0 && <img src={check} alt="check" />}
+          </div>
+        )} */}
+        {!props.isCard && (
+          <div onClick={() => toggleCheck(props.data)}>
+            {!props.data.isChecked ? (
+              <span className="material-symbols-outlined">
+                radio_button_unchecked
+              </span>
+            ) : (
+              <span className="material-symbols-outlined">check_circle</span>
+            )}
           </div>
         )}
         {!isUpdate ? (
