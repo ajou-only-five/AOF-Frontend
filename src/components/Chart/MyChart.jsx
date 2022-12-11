@@ -9,20 +9,12 @@ function MyChart(props) {
   const data = [
     { name: "강현욱", count: 30 },
     { name: "박윤정", count: 40 },
-    { name: "강동하", count: 50 },
-    { name: "정윤미", count: 60 },
-    { name: "장성호", count: 2 },
   ];
 
   const [countData, setCountData] = useState(sortRank(data));
 
-  // const maxCount =
-  //   Math.max(...countData.map((el) => el.count)) < 50
-  //     ? 50
-  //     : Math.max(...countData.map((el) => el.count));
   const maxCount = Math.max(...countData.map((el) => el.count));
 
-  // const chartHeight = (maxCount + 50) * 3 > 400 ? 400 : (maxCount + 50) * 3;
   const chartHeight = 400;
 
   const barMaxHeight = 250;
@@ -41,7 +33,6 @@ function MyChart(props) {
         preserveAspectRatio="xMidYMax meet"
       >
         {countData.map((el, idx) => {
-          // const barHeight = el.count * 2.5;
           const barHeight = barMaxHeight * (el.count / maxCount);
           return (
             <ChartBar

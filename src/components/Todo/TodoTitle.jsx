@@ -4,6 +4,8 @@ import { useTodoListContext } from "../../context/todoListContext";
 import { server_debug } from "../../js/server_url";
 import { getDate } from "../../js/dateFormat";
 
+import addBox from "../../images/icons/addBox.png";
+
 function TodoTitle(props) {
   const { todoList, setTodoList } = useTodoListContext();
   const [isCreate, setIsCreate] = useState(false);
@@ -54,23 +56,9 @@ function TodoTitle(props) {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", gap: 5 }}>
       <div style={{ color: props.data.color }} className="todo-title">
         {props.data.title}
-      </div>
-      <div
-        onClick={() => {
-          setIsCreate(!isCreate);
-        }}
-      >
-        추가
-      </div>
-      <div
-        onClick={() => {
-          deleteTodoTitle();
-        }}
-      >
-        삭제
       </div>
       {isCreate && (
         <form>
@@ -78,7 +66,6 @@ function TodoTitle(props) {
           <button
             onClick={(e) => {
               e.preventDefault();
-              //   console.log(user.userId);
               createNewContent();
             }}
           >
@@ -86,6 +73,24 @@ function TodoTitle(props) {
           </button>
         </form>
       )}
+      <div
+        onClick={() => {
+          setIsCreate(!isCreate);
+        }}
+      >
+        {!isCreate ? (
+          <span class="material-symbols-outlined">add_circle</span>
+        ) : (
+          <span class="material-symbols-outlined">cancel</span>
+        )}
+      </div>
+      <div
+        onClick={() => {
+          deleteTodoTitle();
+        }}
+      >
+        <span class="material-symbols-outlined">delete</span>
+      </div>
     </div>
   );
 }
