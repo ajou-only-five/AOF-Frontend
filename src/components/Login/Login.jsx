@@ -56,15 +56,15 @@ function Login(props) {
         if (res.status === 200) {
           let friendList = res.data;
           await axios
-          .get(`${server_debug}/search/friendRequested`, params)
-          .then(async (res) => {
-            let friendRequestedList = res.data;
+            .get(`${server_debug}/search/friendRequested`, params)
+            .then(async (res) => {
+              let friendRequestedList = res.data;
 
-            setFriendList([
-              ...friendList,
-              ...friendRequestedList
-            ]);
-          })
+              setFriendList([
+                ...friendList,
+                ...friendRequestedList
+              ]);
+            })
         }
       })
       .catch((e) => {
@@ -72,6 +72,24 @@ function Login(props) {
       });
   };
 
+  const fetchOnlyFiveList = async (userId) => {
+    const params = {
+      params: {
+        userId: userId,
+      },
+    };
+
+    await axios
+      .get(`${server_debug}/onlyFive`, params)
+      .then(async (res) => {
+        if (res.status === 200) {
+          console.log('res', res);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -94,6 +112,8 @@ function Login(props) {
           await fetchTodoList(v.data.userId)
             .catch(() => setIsLoading(false));
           await fetchFriendList(v.data.userId)
+            .catch(() => setIsLoading(false));
+          await fetchOnlyFiveList(v.data.userId)
             .then((response) => {
               setIsLoading(false);
             })

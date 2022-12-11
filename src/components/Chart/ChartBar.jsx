@@ -4,7 +4,7 @@ function ChartBar(props) {
   return (
     <>
       <text x={props.x + props.width / 3.3} y={80} fill={"white"}>
-        <tspan>{props.data.name}</tspan>
+        <tspan>{props.data.NICKNAME}</tspan>
       </text>
 
       <rect
@@ -21,7 +21,7 @@ function ChartBar(props) {
         y={props.y + props.height + 20}
         fill={props.data.rank === 1 ? "yellow" : "white"}
       >
-        {props.data.count}
+        {props.data.ITEM_NUM}
       </text>
     </>
   );

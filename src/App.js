@@ -6,6 +6,7 @@ import MainPage from "./page/MainPage/MainPage";
 import { UserProvider } from "./context/userContext";
 import { TodoListProvider } from "./context/todoListContext";
 import { FriendListProvider } from "./context/friendListContext";
+import { OnlyFiveProvider } from "./context/onlyFiveContext";
 
 function App() {
   return (
@@ -14,9 +15,11 @@ function App() {
         <UserProvider>
           <TodoListProvider>
             <FriendListProvider>
-            <Routes>
-              <Route exact path="/" element={<MainPage />} />
-            </Routes>
+              <OnlyFiveProvider>
+                <Routes>
+                  <Route exact path="/" element={<MainPage />} />
+                </Routes>
+              </OnlyFiveProvider>
             </FriendListProvider>
           </TodoListProvider>
         </UserProvider>

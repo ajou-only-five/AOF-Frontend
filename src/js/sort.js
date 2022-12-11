@@ -1,5 +1,5 @@
 export function sortRank(list) {
-  list.sort((a, b) => a.count - b.count).reverse();
+  list.sort((a, b) => a.ITEM_NUM - b.ITEM_NUM).reverse();
   let [firstValue, ...lists] = list;
   const answer = [firstValue];
 
