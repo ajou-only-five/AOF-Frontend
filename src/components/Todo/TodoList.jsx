@@ -9,7 +9,7 @@ function TodoList(props) {
         // console.log(el);
         return (
           <div key={i}>
-            {!props.isCard && <TodoTitle data={el} />}
+            {!props.isCard && <TodoTitle data={el} day={props.day} />}
             {el.todoItemList !== undefined && (
               <div className="todo-list">
                 <TodoBlock el={el.todoItemList} isCard={props.isCard} idx={i} />

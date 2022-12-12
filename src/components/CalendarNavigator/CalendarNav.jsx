@@ -43,7 +43,7 @@ function CalendarNav(props) {
             }}
           >
             <div>{i + 1}일</div>
-            <TodoList data={el} isCard={true} />
+            <TodoList data={el} isCard={true} day={i + 1} />
           </div>
         );
       })}

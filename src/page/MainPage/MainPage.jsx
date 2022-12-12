@@ -19,9 +19,11 @@ import { todoListFormat } from "../../js/todoListFormat";
 import useTodoListContext from "../../context/todoListContext/useTodoListContext";
 import { useUserContext } from "../../context/userContext";
 import { server_debug } from "../../js/server_url";
+import { useDateContext } from "../../context/dateContext";
 
 function Mainpage() {
   const { user } = useUserContext();
+  const { date } = useDateContext();
   const [isLogined, setIsLogined] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [registerIsOpen, setRegisterIsOpen] = useState(false);
@@ -48,8 +50,8 @@ function Mainpage() {
     const params = {
       params: {
         userId: user.userId,
-        year: todoYear,
-        month: todoMonth,
+        year: date.year,
+        month: date.month,
       },
     };
 
@@ -69,7 +71,7 @@ function Mainpage() {
   };
   // 설정 년 월에 따른 마지막 날짜 변동
   useEffect(() => {
-    setMaxDate(new Date(todoYear, todoMonth, 0).getDate());
+    setMaxDate(new Date(date.year, date.month, 0).getDate());
 
     if (user.userId) {
       try {
@@ -85,15 +87,9 @@ function Mainpage() {
         setIsLoading(false);
       }
     }
-  }, [todoYear, todoMonth]);
+  }, [date.year, date.month]);
 
   const toggleIsLogined = () => {
-    // console.log(user);
-    // if (user.userId === undefined) {
-    //   setIsLogined(false);
-    //   return;
-    // }
-    // setIsLogined(true);
     setIsLogined(!isLogined);
   };
 
@@ -126,7 +122,9 @@ function Mainpage() {
                   setIsOpen={setTodoModalIsOpen}
                   isLogined={isLogined}
                   setIsLogined={setIsLogined}
-                  el={<TodoList data={todoList[cardIndex]} />}
+                  el={
+                    <TodoList data={todoList[cardIndex]} day={cardIndex + 1} />
+                  }
                 />
               )}
 

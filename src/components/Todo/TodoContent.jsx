@@ -1,7 +1,6 @@
 import axios from "axios";
 import React from "react";
 import { useTodoListContext } from "../../context/todoListContext";
-import check from "../../images/icons/check.png";
 import { getDate } from "../../js/dateFormat";
 import { server_debug } from "../../js/server_url";
 
@@ -81,20 +80,6 @@ function TodoContent(props) {
   return (
     <div className="todo-block">
       <div style={{ display: "flex", gap: 5 }}>
-        {/* {!props.isCard && (
-          <div
-            onClick={() => {
-              toggleCheck(props.data);
-            }}
-            className={
-              props.data.isChecked
-                ? "check-circle check-circle-complete"
-                : "check-circle"
-            }
-          >
-            {props.data.isChecked !== 0 && <img src={check} alt="check" />}
-          </div>
-        )} */}
         {!props.isCard && (
           <div onClick={() => toggleCheck(props.data)}>
             {!props.data.isChecked ? (

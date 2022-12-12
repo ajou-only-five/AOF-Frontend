@@ -3,27 +3,34 @@ import React, { useState } from "react";
 import { useTodoListContext } from "../../context/todoListContext";
 import { server_debug } from "../../js/server_url";
 import { getDate } from "../../js/dateFormat";
-
-import addBox from "../../images/icons/addBox.png";
+import { useDateContext } from "../../context/dateContext";
 
 function TodoTitle(props) {
   const { todoList, setTodoList } = useTodoListContext();
+  const { date } = useDateContext();
   const [isCreate, setIsCreate] = useState(false);
   const [newContent, setNewContent] = useState("");
 
   const createNewContent = async () => {
+    let todoAt = new Date(
+      date.year,
+      date.month,
+      props.day === undefined ? new Date().getDate() : props.day
+    );
+
     let body = {
       titleId: props.data.titleId,
       content: newContent,
-      startAt: new Date(),
-      endAt: new Date(),
+      startAt: todoAt,
+      endAt: todoAt,
     };
 
     await axios.post(`${server_debug}/todo/item`, body).then((v) => {
+      console.log(v);
       if (v.status === 200) {
         let tmp = Array.from(todoList);
 
-        tmp[getDate(new Date()) - 1]
+        tmp[getDate(todoAt) - 1]
           .find((el) => el.titleId === props.data.titleId)
           .todoItemList.push({
             ...v.data,
@@ -76,6 +83,7 @@ function TodoTitle(props) {
       <div
         onClick={() => {
           setIsCreate(!isCreate);
+          console.log(props.day);
         }}
       >
         {!isCreate ? (
