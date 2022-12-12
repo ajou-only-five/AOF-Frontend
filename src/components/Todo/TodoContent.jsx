@@ -24,7 +24,6 @@ function TodoContent(props) {
       console.log(v);
       if (v.status === 200) {
         let tmp = Array.from(todoList);
-        let todaytmp = Array.from(todayTodoList);
 
         tmp[getDate(el.startAt) - 1]
           .find((element) => element.titleId === el.titleId)
@@ -32,18 +31,6 @@ function TodoContent(props) {
             (item) => item.contentId === el.contentId
           ).isChecked =
           tmp[getDate(el.startAt) - 1]
-            .find((element) => element.titleId === el.titleId)
-            .todoItemList.find((item) => item.contentId === el.contentId)
-            .isChecked === 0
-            ? 1
-            : 0;
-
-        todaytmp
-          .find((element) => element.titleId === el.titleId)
-          .todoItemList.find(
-            (item) => item.contentId === el.contentId
-          ).isChecked =
-          todaytmp
             .find((element) => element.titleId === el.titleId)
             .todoItemList.find((item) => item.contentId === el.contentId)
             .isChecked === 0
@@ -64,13 +51,8 @@ function TodoContent(props) {
         console.log(v);
         if (v.status === 200) {
           let tmp = Array.from(todoList);
-          let todaytmp = Array.from(todayTodoList);
 
           const contentIndex = tmp[getDate(el.startAt) - 1]
-            .find((element) => element.titleId === el.titleId)
-            .todoItemList.findIndex((v) => v.contentId === el.contentId);
-
-          const todayContentIndex = todaytmp
             .find((element) => element.titleId === el.titleId)
             .todoItemList.findIndex((v) => v.contentId === el.contentId);
 
@@ -82,10 +64,6 @@ function TodoContent(props) {
           tmp[getDate(el.startAt) - 1]
             .find((element) => element.titleId === el.titleId)
             .todoItemList.splice(contentIndex, 1);
-
-          todaytmp
-            .find((element) => element.titleId === el.titleId)
-            .todoItemList.splice(todayContentIndex, 1);
 
           setTodoList(tmp);
         }
@@ -105,15 +83,8 @@ function TodoContent(props) {
       console.log(v);
       if (v.status === 200) {
         let tmp = Array.from(todoList);
-        let todaytmp = Array.from(todayTodoList);
 
         tmp[getDate(el.startAt) - 1]
-          .find((element) => element.titleId === el.titleId)
-          .todoItemList.find(
-            (item) => item.contentId === el.contentId
-          ).content = newContent || el.content;
-
-        todaytmp
           .find((element) => element.titleId === el.titleId)
           .todoItemList.find(
             (item) => item.contentId === el.contentId
