@@ -4,13 +4,14 @@ import { useUserContext } from "../../context/userContext/index";
 import { server_debug } from "../../js/server_url";
 
 import "../../styles/Auth.css";
-import { useTodayTodoListContext } from "../../context/todayTodoListContext";
+import { useTodoListContext } from "../../context/todoListContext";
 
 function Login(props) {
   const { setUser } = useUserContext();
   const [account, setAccount] = useState();
   const [password, setPassword] = useState();
   const [isLoadin, setIsLoading] = useState(false);
+  const { setTodoList } = useTodoListContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

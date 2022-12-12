@@ -8,7 +8,11 @@ function TodoBlock(props) {
       {props.el?.map((el) => {
         return (
           <div key={el.contentId}>
-            <TodoContent data={el} isCard={props.isCard} />
+            <TodoContent
+              data={el}
+              isCard={props.isCard}
+              isToday={props.isToday}
+            />
           </div>
         );
       })}

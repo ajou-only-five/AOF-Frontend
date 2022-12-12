@@ -84,7 +84,6 @@ const TodoListProvider = ({ children }) => {
         console.log(res);
         if (res.status === 200) {
           setTodoList(Array.from(todoListFormat(res.data, currentMaxDate)));
-
           const minDate = new Date(date.year, date.month - 1, 1);
           const maxDate = new Date(date.year, date.month, 0);
 
@@ -112,6 +111,7 @@ const TodoListProvider = ({ children }) => {
       .catch((e) => {
         console.log(e);
       });
+
   }
 
   useEffect(() => {
@@ -119,8 +119,6 @@ const TodoListProvider = ({ children }) => {
       fetchTodoList(user.lastViewUserId);
     }
   }, [user, date.year, date.month]);
-
-
 
   return (
     <TodoListContext.Provider value={value}>
