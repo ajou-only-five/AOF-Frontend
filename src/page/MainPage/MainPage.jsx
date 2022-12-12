@@ -91,15 +91,6 @@ function Mainpage() {
     console.log(todoList);
   }, [todoList]);
 
-  const toggleIsLogined = () => {
-    // console.log(user);
-    if (user.userId === undefined) {
-      setIsLogined(false);
-      return;
-    }
-    setIsLogined(true);
-  };
-
   return (
     <div>
       {isLoading ? (
@@ -141,7 +132,7 @@ function Mainpage() {
               />
 
               {/* sidemenu */}
-              <Toolbar toggleIsLogined={toggleIsLogined} />
+              <Toolbar setIsLogined={setIsLogined} />
             </div>
           ) : (
             <div
@@ -167,7 +158,7 @@ function Mainpage() {
                   setIsOpen={setLoginIsOpen}
                   el={
                     <Login
-                      toggleIsLogined={toggleIsLogined}
+                    setIsLogined={setIsLogined}
                       setIsOpen={setLoginIsOpen}
                     />
                   }
@@ -185,7 +176,7 @@ function Mainpage() {
                   setIsOpen={setRegisterIsOpen}
                   el={
                     <Register
-                      toggleIsLogined={toggleIsLogined}
+                    setIsLogined={setIsLogined}
                       setIsOpen={setRegisterIsOpen}
                     />
                   }

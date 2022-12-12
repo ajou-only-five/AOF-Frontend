@@ -5,7 +5,7 @@ export const initialUserContext = {
   nickname: null,
   profile: null,
   disclosure: null,
-  setUser: null,
+  lastViewUserId: null,
 };
 
 const UserContext = createContext(initialUserContext);

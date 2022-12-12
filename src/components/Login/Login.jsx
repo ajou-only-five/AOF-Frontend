@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useEffect } from "react";
+
 import { useFriendListContext } from "../../context/friendListContext";
 import { useTodoListContext } from "../../context/todoListContext";
 import { useUserContext } from "../../context/userContext/index";
@@ -9,87 +11,18 @@ import { todoListFormat } from "../../js/todoListFormat";
 import "../../styles/Auth.css";
 
 function Login(props) {
-  const { setUser } = useUserContext();
+  const { user, setUser } = useUserContext();
   const { friendList, setFriendList } = useFriendListContext();
   const [account, setAccount] = useState();
   const [password, setPassword] = useState();
 
-  const { setTodoList } = useTodoListContext();
+  const { todoList, setTodoList } = useTodoListContext();
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchTodoList = async (userId) => {
-    const currentYear = new Date().getFullYear();
-    const currentMonth = new Date().getMonth() + 1;
-    const currentMaxDate = new Date(currentYear, currentMonth, 0).getDate();
+  useEffect(() => {
 
-    const params = {
-      params: {
-        userId: userId,
-        year: currentYear,
-        month: currentMonth,
-      },
-    };
+  }, [user, todoList])
 
-    await axios
-      .get(`${server_debug}/todo/search/todoList`, params)
-      .then((res) => {
-        console.log(res);
-        if (res.status === 200) {
-          setTodoList(Array.from(todoListFormat(res.data, currentMaxDate)));
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const fetchFriendList = async (userId) => {
-    const params = {
-      params: {
-        userId: userId,
-      },
-    };
-
-    await axios
-      .get(`${server_debug}/search/friend`, params)
-      .then(async (res) => {
-        if (res.status === 200) {
-          let friendList = res.data;
-          await axios
-            .get(`${server_debug}/search/friendRequested`, params)
-            .then(async (res) => {
-              let friendRequestedList = res.data;
-
-              setFriendList([
-                ...friendList,
-                ...friendRequestedList
-              ]);
-            })
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  };
-
-  const fetchOnlyFiveList = async (userId) => {
-    const params = {
-      params: {
-        userId: userId,
-      },
-    };
-
-    await axios
-      .get(`${server_debug}/onlyFive`, params)
-      .then(async (res) => {
-        if (res.status === 200) {
-          console.log('res', res);
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,25 +37,11 @@ function Login(props) {
         alert("로그인에 성공하였습니다.");
         setUser({
           ...v.data,
+          lastViewUserId: null,
         });
 
-        try {
-          setIsLoading(true);
-
-          await fetchTodoList(v.data.userId)
-            .catch(() => setIsLoading(false));
-          await fetchFriendList(v.data.userId)
-            .catch(() => setIsLoading(false));
-          await fetchOnlyFiveList(v.data.userId)
-            .then((response) => {
-              setIsLoading(false);
-            })
-            .catch(() => setIsLoading(false));
-        } catch (e) {
-          console.log(e);
-          setIsLoading(false);
-        }
-        props.toggleIsLogined();
+        setIsLoading(true);
+      props.setIsLogined(true);
         props.setIsOpen(false);
       })
       .catch((err) => {

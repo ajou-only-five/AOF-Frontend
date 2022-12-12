@@ -25,18 +25,30 @@ const OnlyFiveProvider = ({ children }) => {
         return;
       }
 
+      if (user.lastViewUserId === null) {
+        await axios
+        .get(`${server_debug}/onlyFive`)
+        .then(async (res) => {
+          setOnlyFiveList([...res.data]);
+
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+        return;
+      }
+
       const params = {
         params: {
-          userId: user.userId,
+          userId: user.lastViewUserId,
         },
       };
 
       await axios
         .get(`${server_debug}/onlyFive`, params)
         .then(async (res) => {
-          if (res.status === 200) {
-            setOnlyFiveList([...res.data]);
-          }
+          setOnlyFiveList([...res.data]);
+
         })
         .catch((e) => {
           console.log(e);
@@ -54,3 +66,4 @@ const OnlyFiveProvider = ({ children }) => {
 };
 
 export default OnlyFiveProvider;
+

@@ -20,7 +20,7 @@ function CalendarNav(props) {
 
     // target(items, Math.floor(todoList.length / 2));
     target(items, todayDate);
-  }, []);
+  }, [todoList]);
 
   return (
     <div className="coverflow" ref={coverRef}>
