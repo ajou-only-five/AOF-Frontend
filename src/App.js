@@ -19,18 +19,20 @@ function App() {
       <div className="App">
         <DateProvider>
           <UserProvider>
+          <TodayTodoListProvider>
             <TodoListProvider>
               <FriendListProvider>
                 <OnlyFiveProvider>
-                  <TodayTodoListProvider>
+                
                     <Routes>
                       <Route exact path="/" element={<MainPage />} />
                       <Route exact path="/:id" element={<MainPage />} />
                     </Routes>
-                  </TodayTodoListProvider>
+                  
                 </OnlyFiveProvider>
               </FriendListProvider>
             </TodoListProvider>
+            </TodayTodoListProvider>
           </UserProvider>
         </DateProvider>
       </div>

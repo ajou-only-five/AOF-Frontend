@@ -48,52 +48,13 @@ function Mainpage() {
   const { todoList, setTodoList } = useTodoListContext();
   const [isLoading, setIsLoading] = useState(false);
 
-  const fetchTodoList = async () => {
-    const params = {
-      params: {
-        userId: user.userId,
-        year: date.year,
-        month: date.month,
-      },
-    };
-
-    await axios
-      .get(`${server_debug}/todo/search/todoList`, params)
-      .then((res) => {
-        console.log(res.data);
-        if (res.status === 200) {
-          // console.log(res.data);
-          setTodoList(Array.from(todoListFormat(res.data, maxDate)));
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-        // setTodoList(Array.from(todoListFormat([], maxDate)));
-      });
-  };
-  // 설정 년 월에 따른 마지막 날짜 변동
-  useEffect(() => {
-    setMaxDate(new Date(date.year, date.month, 0).getDate());
-
-    if (user.userId) {
-      try {
-        setIsLoading(true);
-
-        fetchTodoList()
-          .then((response) => {
-            setIsLoading(false);
-          })
-          .catch(() => setIsLoading(false));
-      } catch (e) {
-        console.log(e);
-        setIsLoading(false);
-      }
-    }
-  }, [date.year, date.month]);
-
   const toggleIsLogined = () => {
     setIsLogined(!isLogined);
   };
+
+  useEffect(() => {
+    setMaxDate(new Date(date.year, date.month, 0).getDate());
+  }, [date.year, date.month]);
 
   return (
     <div>

@@ -12,19 +12,16 @@ function CalendarNav(props) {
 
   const { date } = useDateContext();
   const { todoList } = useTodoListContext();
-  // const [todoList, setTodoList] = useState(props.todoList);
-  // console.log(todoList);
 
   useEffect(() => {
     const items = coverRef.current.children;
     const today = new Date();
     const todayDate = today.getDate() - 1;
 
-    // target(items, Math.floor(todoList.length / 2));
     today.getMonth() + 1 === date.month
       ? target(items, todayDate)
       : target(items, 0);
-  }, []);
+  }, [todoList]);
 
   return (
     <div className="coverflow" ref={coverRef}>

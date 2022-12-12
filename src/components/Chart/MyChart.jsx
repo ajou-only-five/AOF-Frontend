@@ -5,12 +5,13 @@ import ChartBar from "./ChartBar";
 import { sortRank } from "../../js/sort";
 import "../../styles/Chart.css";
 import { useOnlyFiveContext } from "../../context/onlyFiveContext";
+import { useEffect } from "react";
 
 function MyChart(props) {
   const { onlyFiveList } = useOnlyFiveContext();
-  const [countData, setCountData] = useState(sortRank(onlyFiveList));
+  const [countData, setCountData] = useState([]);
 
-  const maxCount = Math.max(...countData?.map((el) => el.ITEM_NUM));
+  const maxCount = Math.max(...countData?.map((el) => el?.ITEM_NUM));
   const chartHeight = 400;
   const barMaxHeight = 250;
   const barWidth = 50;
@@ -18,7 +19,15 @@ function MyChart(props) {
   const numofBars = countData.length;
   let width = numofBars * (barWidth + barMargin);
 
-  return (
+  useEffect(() => {
+    setCountData(sortRank(onlyFiveList));
+  }, [onlyFiveList]);
+
+  return countData.length === 0 ? (
+    <div>
+
+    </div>
+  ) : (
     <div className="chart-container">
       <svg
         width={width}
@@ -26,12 +35,12 @@ function MyChart(props) {
         viewBox={`0 0 ${width} ${chartHeight}`}
         preserveAspectRatio="xMidYMax meet"
       >
-        {countData.map((el, idx) => {
-          const barHeight = barMaxHeight * (el.ITEM_NUM / maxCount);
+        {countData?.map((el, idx) => {
+          const barHeight = barMaxHeight * (el?.ITEM_NUM / maxCount);
 
           return (
             <ChartBar
-              key={el.NICKNAME}
+              key={el?.NICKNAME}
               x={idx * (barWidth + barMargin) + 5}
               y={chartHeight - barHeight - 20}
               width={barWidth}
@@ -45,5 +54,6 @@ function MyChart(props) {
     </div>
   );
 }
+
 
 export default MyChart;

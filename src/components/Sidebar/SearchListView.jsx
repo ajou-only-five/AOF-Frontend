@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { useDateContext } from "../../context/dateContext";
 import { useFriendListContext } from "../../context/friendListContext";
 import { useOnlyFiveContext } from "../../context/onlyFiveContext";
 import { useTodoListContext } from "../../context/todoListContext";
+import { useUserContext } from "../../context/userContext";
 import { server_debug } from "../../js/server_url";
 import { todoListFormat } from "../../js/todoListFormat";
 
@@ -13,9 +15,11 @@ const SearchListview = ({
   titleWhenShow,
   titleWhenUnShow,
 }) => {
+  const {user, setUser} = useUserContext();
   const { friendList, setFriendList } = useFriendListContext();
   const { setTodoList } = useTodoListContext();
   const { setOnlyFiveList } = useOnlyFiveContext();
+  const {date, setDate} = useDateContext();
   const [isShowing, setIsShowing] = useState(false);
   const [search, setSearch] = useState("");
   const [searchNotFriendList, setSearchNotFriendList] = useState([]);
@@ -298,12 +302,23 @@ const SearchListview = ({
                 key={i}
                 className="friend-box"
                 onClick={() => {
-                  console.log(el.NICKNAME);
-                  console.log(el.ID);
-                  getFriendTodoList(el.ID);
+                  // getFriendTodoList(el.ID);
                 }}
               >
-                <div>{el.NICKNAME}</div>
+                <div onClick={() => {
+                  let temp = {...user};
+                  temp.lastViewUserId = el.ID;
+
+                  let today = {
+                    year: new Date().getFullYear(),
+                    month: new Date().getMonth() + 1,
+                  };
+          
+                  setUser({ ...temp });
+                  setDate({
+                    ...today
+                  })
+                }}>{el.NICKNAME}</div>
                 {createButtonByRelation(el.RELATION, el.ID)}
                 <div></div>
               </div>

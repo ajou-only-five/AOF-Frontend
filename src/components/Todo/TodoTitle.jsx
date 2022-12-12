@@ -5,8 +5,10 @@ import { server_debug } from "../../js/server_url";
 import { getDate } from "../../js/dateFormat";
 import { useDateContext } from "../../context/dateContext";
 import { useTodayTodoListContext } from "../../context/todayTodoListContext";
+import { useUserContext } from "../../context/userContext";
 
 function TodoTitle(props) {
+  const { user} = useUserContext();
   const { todoList, setTodoList } = useTodoListContext();
   const { todayTodoList, setTodayTodoList } = useTodayTodoListContext();
   const { date } = useDateContext();
@@ -71,7 +73,8 @@ function TodoTitle(props) {
       <div style={{ color: props.data.color }} className="todo-title">
         {props.data.title}
       </div>
-      {isCreate && (
+      
+      {user.lastViewUserId === null && isCreate && (
         <form>
           <input onChange={(e) => setNewContent(e.currentTarget.value)} />
           <button
@@ -84,7 +87,9 @@ function TodoTitle(props) {
           </button>
         </form>
       )}
-      <div
+      {
+        user.lastViewUserId === null && <div style={{ display: "flex", flexDirection:"row" }}>
+          <div
         onClick={() => {
           setIsCreate(!isCreate);
           console.log(props.day);
@@ -104,6 +109,8 @@ function TodoTitle(props) {
       >
         <span className="material-symbols-outlined">delete</span>
       </div>
+      </div>
+      }
     </div>
   );
 }

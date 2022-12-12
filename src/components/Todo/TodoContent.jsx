@@ -2,10 +2,12 @@ import axios from "axios";
 import React from "react";
 import { useTodayTodoListContext } from "../../context/todayTodoListContext";
 import { useTodoListContext } from "../../context/todoListContext";
+import { useUserContext } from "../../context/userContext";
 import { getDate } from "../../js/dateFormat";
 import { server_debug } from "../../js/server_url";
 
 function TodoContent(props) {
+  const { user, setUser } = useUserContext();
   const { todoList, setTodoList } = useTodoListContext();
   const { todayTodoList, setTodayTodoList } = useTodayTodoListContext();
   const [isUpdate, setIsUpdate] = React.useState(false);
@@ -100,7 +102,13 @@ function TodoContent(props) {
     <div className="todo-block">
       <div style={{ display: "flex", gap: 5 }}>
         {!props.isCard && (
-          <div onClick={() => toggleCheck(props.data)}>
+          <div onClick={() => {
+            if (user.lastViewUserId !== null) {
+              return;
+            }
+
+            toggleCheck(props.data);
+          }}>
             {!props.data.isChecked ? (
               <span className="material-symbols-outlined">
                 radio_button_unchecked
@@ -134,30 +142,35 @@ function TodoContent(props) {
           </div>
         )}
       </div>
-      <div style={{ display: "flex", gap: 5 }}>
-        {!props.isCard && (
-          <div
-            onClick={() => {
-              setIsUpdate(!isUpdate);
-            }}
-          >
-            {!isUpdate && (
-              <span className="material-symbols-outlined">edit_square</span>
+      {
+        user.lastViewUserId === null &&
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{ display: "flex", gap: 5 }}>
+            {!props.isCard && (
+              <div
+                onClick={() => {
+                  setIsUpdate(!isUpdate);
+                }}
+              >
+                {!isUpdate && (
+                  <span className="material-symbols-outlined">edit_square</span>
+                )}
+              </div>
+            )}
+            {!props.isCard && (
+              <div
+                onClick={() => {
+                  if (window.confirm("해당 todo를 삭제하시겠습니까 ?")) {
+                    deleteContent(props.data);
+                  }
+                }}
+              >
+                <span className="material-symbols-outlined">close</span>
+              </div>
             )}
           </div>
-        )}
-        {!props.isCard && (
-          <div
-            onClick={() => {
-              if (window.confirm("해당 todo를 삭제하시겠습니까 ?")) {
-                deleteContent(props.data);
-              }
-            }}
-          >
-            <span className="material-symbols-outlined">close</span>
-          </div>
-        )}
-      </div>
+        </div>
+      }
     </div>
   );
 }
