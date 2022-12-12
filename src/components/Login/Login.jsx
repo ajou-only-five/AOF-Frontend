@@ -8,11 +8,13 @@ import { server_debug } from "../../js/server_url";
 import { todoListFormat } from "../../js/todoListFormat";
 
 import "../../styles/Auth.css";
+import { useTodayTodoListContext } from "../../context/todayTodoListContext";
 
 function Login(props) {
   const { setUser } = useUserContext();
   const { friendList, setFriendList } = useFriendListContext();
   const { setOnlyFiveList } = useOnlyFiveContext();
+  const { setTodayTodoList } = useTodayTodoListContext();
   const [account, setAccount] = useState();
   const [password, setPassword] = useState();
 
@@ -109,6 +111,31 @@ function Login(props) {
 
         try {
           setIsLoading(true);
+
+          const today = new Date();
+
+          await axios
+            .get(`${server_debug}/todo/search/todoList`, {
+              params: {
+                year: today.getFullYear(),
+                month: today.getMonth() + 1,
+              },
+            })
+            .then((v) => {
+              if (v.status === 200)
+                setTodayTodoList(
+                  Array.from(
+                    todoListFormat(
+                      v.data,
+                      new Date(
+                        today.getFullYear(),
+                        today.getMonth() + 1,
+                        0
+                      ).getDate()
+                    )[today.getDate() - 1]
+                  )
+                );
+            });
 
           await fetchTodoList(v.data.userId).catch(() => setIsLoading(false));
           await fetchFriendList(v.data.userId).catch(() => setIsLoading(false));

@@ -1,11 +1,13 @@
 import axios from "axios";
 import React from "react";
+import { useTodayTodoListContext } from "../../context/todayTodoListContext";
 import { useTodoListContext } from "../../context/todoListContext";
 import { getDate } from "../../js/dateFormat";
 import { server_debug } from "../../js/server_url";
 
 function TodoContent(props) {
   const { todoList, setTodoList } = useTodoListContext();
+  const { todayTodoList, setTodayTodoList } = useTodayTodoListContext();
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [newContent, setNewContent] = React.useState("");
 
@@ -22,6 +24,7 @@ function TodoContent(props) {
       console.log(v);
       if (v.status === 200) {
         let tmp = Array.from(todoList);
+        let todaytmp = Array.from(todayTodoList);
 
         tmp[getDate(el.startAt) - 1]
           .find((element) => element.titleId === el.titleId)
@@ -35,7 +38,20 @@ function TodoContent(props) {
             ? 1
             : 0;
 
+        todaytmp
+          .find((element) => element.titleId === el.titleId)
+          .todoItemList.find(
+            (item) => item.contentId === el.contentId
+          ).isChecked =
+          todaytmp
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.find((item) => item.contentId === el.contentId)
+            .isChecked === 0
+            ? 1
+            : 0;
+
         setTodoList(tmp);
+        setTodayTodoList(todaytmp);
       }
     });
   };
@@ -81,8 +97,15 @@ function TodoContent(props) {
       console.log(v);
       if (v.status === 200) {
         let tmp = Array.from(todoList);
+        let todaytmp = Array.from(todayTodoList);
 
         tmp[getDate(el.startAt) - 1]
+          .find((element) => element.titleId === el.titleId)
+          .todoItemList.find(
+            (item) => item.contentId === el.contentId
+          ).content = newContent || el.content;
+
+        todaytmp
           .find((element) => element.titleId === el.titleId)
           .todoItemList.find(
             (item) => item.contentId === el.contentId

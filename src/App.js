@@ -9,6 +9,7 @@ import { TodoListProvider } from "./context/todoListContext";
 import { FriendListProvider } from "./context/friendListContext";
 import { OnlyFiveProvider } from "./context/onlyFiveContext";
 import { DateProvider } from "./context/dateContext";
+import { TodayTodoListProvider } from "./context/todayTodoListContext";
 
 axios.defaults.withCredentials = true;
 
@@ -21,10 +22,12 @@ function App() {
             <TodoListProvider>
               <FriendListProvider>
                 <OnlyFiveProvider>
-                  <Routes>
-                    <Route exact path="/" element={<MainPage />} />
-                    <Route exact path="/:id" element={<MainPage />} />
-                  </Routes>
+                  <TodayTodoListProvider>
+                    <Routes>
+                      <Route exact path="/" element={<MainPage />} />
+                      <Route exact path="/:id" element={<MainPage />} />
+                    </Routes>
+                  </TodayTodoListProvider>
                 </OnlyFiveProvider>
               </FriendListProvider>
             </TodoListProvider>

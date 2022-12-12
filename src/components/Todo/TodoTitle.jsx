@@ -4,9 +4,11 @@ import { useTodoListContext } from "../../context/todoListContext";
 import { server_debug } from "../../js/server_url";
 import { getDate } from "../../js/dateFormat";
 import { useDateContext } from "../../context/dateContext";
+import { useTodayTodoListContext } from "../../context/todayTodoListContext";
 
 function TodoTitle(props) {
   const { todoList, setTodoList } = useTodoListContext();
+  const { todayTodoList, setTodayTodoList } = useTodayTodoListContext();
   const { date } = useDateContext();
   const [isCreate, setIsCreate] = useState(false);
   const [newContent, setNewContent] = useState("");
@@ -29,6 +31,7 @@ function TodoTitle(props) {
       console.log(v);
       if (v.status === 200) {
         let tmp = Array.from(todoList);
+        let todaytmp = Array.from(todayTodoList);
 
         tmp[getDate(todoAt) - 1]
           .find((el) => el.titleId === props.data.titleId)
@@ -37,7 +40,12 @@ function TodoTitle(props) {
             titleId: props.data.titleId,
           });
 
+        todayTodoList
+          .find((el) => el.titleId === props.data.titleId)
+          .todoItemList.push({ ...v.data, titleId: props.data.titleId });
+
         setTodoList(tmp);
+        setTodayTodoList(todaytmp);
         setIsCreate(!isCreate);
       }
     });
@@ -52,11 +60,16 @@ function TodoTitle(props) {
         console.log(v);
         if (v.status === 200) {
           let tmp = Array.from(todoList);
+          let todaytmp = Array.from(todayTodoList);
 
           setTodoList(
             tmp.map((item) =>
               item.filter((el) => el.titleId !== props.data.titleId)
             )
+          );
+
+          setTodayTodoList(
+            todaytmp.filter((el) => el.titleId !== props.data.titleId)
           );
         }
       })

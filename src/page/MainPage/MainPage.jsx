@@ -10,7 +10,7 @@ import "../../styles/MainPage.css";
 
 import MyChart from "../../components/Chart/MyChart";
 import Quotes from "../../components/Quotes/Quotes.jsx";
-import TodayTodoList from "../../components/Todo/TodayTodoList";
+import TodayTodoComponent from "../../components/Todo/TodayTodoComponent";
 import CalendarNav from "../../components/CalendarNavigator/CalendarNav";
 import TodoList from "../../components/Todo/TodoList.jsx";
 import MonthPicker from "../../components/MonthPicker/MonthPicker";
@@ -20,10 +20,12 @@ import useTodoListContext from "../../context/todoListContext/useTodoListContext
 import { useUserContext } from "../../context/userContext";
 import { server_debug } from "../../js/server_url";
 import { useDateContext } from "../../context/dateContext";
+import { useTodayTodoListContext } from "../../context/todayTodoListContext";
 
 function Mainpage() {
   const { user } = useUserContext();
   const { date } = useDateContext();
+  const { todayTodoList, setTodayTodoList } = useTodayTodoListContext();
   const [isLogined, setIsLogined] = useState(false);
   const [loginIsOpen, setLoginIsOpen] = useState(false);
   const [registerIsOpen, setRegisterIsOpen] = useState(false);
@@ -108,7 +110,11 @@ function Mainpage() {
               <Quotes />
 
               {/* TodatTodoList RightCenter */}
-              <TodayTodoList todoList={todoList[todayDate]} today={todayDate} />
+              <TodayTodoComponent
+                // todoList={todoList[todayDate]}
+                todoList={todayTodoList}
+                today={todayDate}
+              />
 
               {/* CalendarNav TopCenter */}
               <CalendarNav
