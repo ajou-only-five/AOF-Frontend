@@ -7,7 +7,7 @@ import AddTitle from "./AddTitle";
 import SearchListview from "./SearchListView";
 
 function Sidebar(props) {
-  const { user } = useUserContext();
+  const { user, setUser } = useUserContext();
 
   const [addTitle, setAddTitle] = useState(false);
 
@@ -58,6 +58,15 @@ function Sidebar(props) {
         타이틀 추가
       </li>
       {addTitle && <AddTitle />}
+      {
+        user.lastViewUserId !== null &&
+        <li onClick={() => {
+          let temp = { ...user };
+
+          temp.lastViewUserId = null;
+          setUser({ ...temp });
+        }}>돌아가기</li>
+      }
     </div>
   );
 }

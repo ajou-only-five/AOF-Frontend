@@ -12,7 +12,7 @@ function TodoContent(props) {
   const [isUpdate, setIsUpdate] = React.useState(false);
 
   const toggleCheck = async (el) => {
-    if (user.lastViewUserId !== null && user.lastViewUserId !== -1) {
+    if (user.lastViewUserId !== null) {
       return;
     }
 
@@ -112,30 +112,32 @@ function TodoContent(props) {
         )}
       </div>
       {
-        (user.lastViewUserId === null || user.lastViewUserId === -1) &&
-        <div style={{ display: "flex", gap: 5 }}>
-          {!props.isCard && (
-            <div
-              onClick={() => {
-                setIsUpdate(!isUpdate);
-              }}
-            >
-              {!isUpdate ? (
-                <span className="material-symbols-outlined">edit_square</span>
-              ) : (
-                <span className="material-symbols-outlined">check_circle</span>
-              )}
-            </div>
-          )}
-          {!props.isCard && (
-            <div
-              onClick={() => {
-                deleteContent(props.data);
-              }}
-            >
-              <span className="material-symbols-outlined">close</span>
-            </div>
-          )}
+        user.lastViewUserId === null &&
+        <div>
+          <div style={{ display: "flex", gap: 5 }}>
+            {!props.isCard && (
+              <div
+                onClick={() => {
+                  setIsUpdate(!isUpdate);
+                }}
+              >
+                {!isUpdate ? (
+                  <span className="material-symbols-outlined">edit_square</span>
+                ) : (
+                  <span className="material-symbols-outlined">check_circle</span>
+                )}
+              </div>
+            )}
+            {!props.isCard && (
+              <div
+                onClick={() => {
+                  deleteContent(props.data);
+                }}
+              >
+                <span className="material-symbols-outlined">close</span>
+              </div>
+            )}
+          </div>
         </div>
       }
     </div>

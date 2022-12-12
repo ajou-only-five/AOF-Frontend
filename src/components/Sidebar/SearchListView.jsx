@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useFriendListContext } from "../../context/friendListContext";
+import { useUserContext } from "../../context/userContext";
 import { server_debug } from "../../js/server_url";
 
 const SearchListview = ({
@@ -10,6 +11,7 @@ const SearchListview = ({
   titleWhenShow,
   titleWhenUnShow,
 }) => {
+  const {user, setUser} = useUserContext();
   const { friendList, setFriendList } = useFriendListContext();
   const [isShowing, setIsShowing] = useState(false);
   const [search, setSearch] = useState("");
@@ -256,7 +258,10 @@ const SearchListview = ({
                   key={i}
                   className="friend-box"
                   onClick={() => {
-                    console.log(el.NICKNAME);
+                    let temp = {...user};
+
+                    temp.lastViewUserId = el.ID;
+                    setUser({...temp});
                   }}
                 >
                   <div>{el.NICKNAME}</div>

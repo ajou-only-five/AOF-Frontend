@@ -3,8 +3,10 @@ import React, { useState } from "react";
 import { useTodoListContext } from "../../context/todoListContext";
 import { server_debug } from "../../js/server_url";
 import { getDate } from "../../js/dateFormat";
+import { useUserContext } from "../../context/userContext";
 
 function TodoTitle(props) {
+  const { user } = useUserContext();
   const { todoList, setTodoList } = useTodoListContext();
   const [isCreate, setIsCreate] = useState(false);
   const [newContent, setNewContent] = useState("");
@@ -57,34 +59,40 @@ function TodoTitle(props) {
       <div style={{ color: props.data.color }} className="todo-title">
         {props.data.title}
       </div>
-      <div
-        onClick={() => {
-          setIsCreate(!isCreate);
-        }}
-      >
-        추가
-      </div>
-      <div
-        onClick={() => {
-          deleteTodoTitle();
-        }}
-      >
-        삭제
-      </div>
-      {isCreate && (
-        <form>
-          <input onChange={(e) => setNewContent(e.currentTarget.value)} />
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              //   console.log(user.userId);
-              createNewContent();
+      {
+        user.lastViewUserId === null &&
+        <div>
+          <div
+            onClick={() => {
+              setIsCreate(!isCreate);
             }}
           >
-            등록
-          </button>
-        </form>
-      )}
+            추가
+          </div>
+          <div
+            onClick={() => {
+              deleteTodoTitle();
+            }}
+          >
+            삭제
+          </div>
+          {isCreate && (
+            <form>
+              <input onChange={(e) => setNewContent(e.currentTarget.value)} />
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  //   console.log(user.userId);
+                  createNewContent();
+                }}
+              >
+                등록
+              </button>
+            </form>
+          )}
+
+        </div>
+      }
     </div>
   );
 }
