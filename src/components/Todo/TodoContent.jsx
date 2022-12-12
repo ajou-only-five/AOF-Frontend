@@ -10,6 +10,9 @@ function TodoContent(props) {
   const { todayTodoList, setTodayTodoList } = useTodayTodoListContext();
   const [isUpdate, setIsUpdate] = React.useState(false);
   const [newContent, setNewContent] = React.useState("");
+  const today = new Date();
+
+  const todayDate = new Date().getDate();
 
   const toggleCheck = async (el) => {
     let body = {
@@ -39,6 +42,24 @@ function TodoContent(props) {
 
         setTodoList(tmp);
       }
+
+      if (props.isToday) {
+        let todaytmp = Array.from(todayTodoList);
+
+        todaytmp
+          .find((element) => element.titleId === el.titleId)
+          .todoItemList.find(
+            (item) => item.contentId === el.contentId
+          ).isChecked =
+          todaytmp
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.find((item) => item.contentId === el.contentId)
+            .isChecked === 0
+            ? 1
+            : 0;
+
+        setTodayTodoList(todaytmp);
+      }
     });
   };
 
@@ -67,6 +88,20 @@ function TodoContent(props) {
 
           setTodoList(tmp);
         }
+
+        if (props.isToday) {
+          let todaytmp = Array.from(todayTodoList);
+
+          const contentIndex = todaytmp
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.findIndex((v) => v.contentId === el.contentId);
+
+          todaytmp
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.splice(contentIndex, 1);
+
+          setTodayTodoList(todaytmp);
+        }
       });
   };
 
@@ -75,8 +110,8 @@ function TodoContent(props) {
       contentId: el.contentId,
       content: newContent || el.content,
       isChecked: el.isChecked,
-      startAt: el.startAt,
-      endAt: el.endAt,
+      startAt: props.isToday ? today : el.startAt,
+      endAt: props.isToday ? today : el.endAt,
     };
 
     await axios.patch(`${server_debug}/todo/item`, body).then((v) => {
@@ -89,6 +124,19 @@ function TodoContent(props) {
           .todoItemList.find(
             (item) => item.contentId === el.contentId
           ).content = newContent || el.content;
+
+        setTodoList(tmp);
+      }
+      if (props.isToday) {
+        let todaytmp = Array.from(todayTodoList);
+
+        todaytmp
+          .find((element) => element.titleId === el.titleId)
+          .todoItemList.find(
+            (item) => item.contentId === el.contentId
+          ).content = newContent || el.content;
+
+        setTodayTodoList(todaytmp);
       }
     });
 

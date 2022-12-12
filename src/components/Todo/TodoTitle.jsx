@@ -12,6 +12,7 @@ function TodoTitle(props) {
   const { date } = useDateContext();
   const [isCreate, setIsCreate] = useState(false);
   const [newContent, setNewContent] = useState("");
+  const today = new Date();
 
   const createNewContent = async () => {
     let todoAt = new Date(
@@ -23,8 +24,8 @@ function TodoTitle(props) {
     let body = {
       titleId: props.data.titleId,
       content: newContent,
-      startAt: todoAt,
-      endAt: todoAt,
+      startAt: props.isToday ? today : todoAt,
+      endAt: props.isToday ? today : todoAt,
     };
 
     await axios.post(`${server_debug}/todo/item`, body).then((v) => {
@@ -43,6 +44,19 @@ function TodoTitle(props) {
 
         setIsCreate(!isCreate);
       }
+
+      if (props.isToday) {
+        let todaytmp = Array.from(todayTodoList);
+
+        todaytmp
+          .find((el) => el.titleId === props.data.titleId)
+          .todoItemList.push({
+            ...v.data,
+            titleId: props.data.titleId,
+          });
+
+        setTodayTodoList(todaytmp);
+      }
     });
   };
 
@@ -56,11 +70,19 @@ function TodoTitle(props) {
         if (v.status === 200) {
           let tmp = Array.from(todoList);
 
-          setTodoList(
-            tmp.map((item) =>
-              item.filter((el) => el.titleId !== props.data.titleId)
-            )
+          tmp = tmp.map((item) =>
+            item.filter((el) => el.titleId !== props.data.titleId)
           );
+
+          setTodoList(tmp);
+        }
+
+        if (props.isToday) {
+          let todaytmp = Array.from(todayTodoList);
+
+          todaytmp = todaytmp.filter((el) => el.titleId !== props.data.titleId);
+
+          setTodayTodoList(todaytmp);
         }
       })
       .catch((e) => console.log(e));
