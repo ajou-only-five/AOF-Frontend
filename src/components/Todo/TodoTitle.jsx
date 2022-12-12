@@ -38,6 +38,7 @@ function TodoTitle(props) {
           });
 
         setTodoList(tmp);
+        setIsCreate(!isCreate);
       }
     });
   };

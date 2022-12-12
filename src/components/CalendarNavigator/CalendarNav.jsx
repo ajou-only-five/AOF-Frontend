@@ -5,10 +5,12 @@ import { target } from "../../js/transform";
 
 import "../../styles/CalendarNav.css";
 import useTodoListContext from "../../context/todoListContext/useTodoListContext.js";
+import useDateContext from "../../context/dateContext/useDateContext.js";
 
 function CalendarNav(props) {
   const coverRef = useRef();
 
+  const { date } = useDateContext();
   const { todoList } = useTodoListContext();
   // const [todoList, setTodoList] = useState(props.todoList);
   // console.log(todoList);
@@ -19,7 +21,9 @@ function CalendarNav(props) {
     const todayDate = today.getDate() - 1;
 
     // target(items, Math.floor(todoList.length / 2));
-    target(items, todayDate);
+    today.getMonth() + 1 === date.month
+      ? target(items, todayDate)
+      : target(items, 0);
   }, []);
 
   return (

@@ -7,6 +7,7 @@ import { server_debug } from "../../js/server_url";
 function TodoContent(props) {
   const { todoList, setTodoList } = useTodoListContext();
   const [isUpdate, setIsUpdate] = React.useState(false);
+  const [newContent, setNewContent] = React.useState("");
 
   const toggleCheck = async (el) => {
     let body = {
@@ -70,11 +71,27 @@ function TodoContent(props) {
   const updateContent = async (el) => {
     let body = {
       contentId: el.contentId,
-      content: el.content,
+      content: newContent || el.content,
       isChecked: el.isChecked,
       startAt: el.startAt,
       endAt: el.endAt,
     };
+
+    await axios.patch(`${server_debug}/todo/item`, body).then((v) => {
+      console.log(v);
+      if (v.status === 200) {
+        let tmp = Array.from(todoList);
+
+        tmp[getDate(el.startAt) - 1]
+          .find((element) => element.titleId === el.titleId)
+          .todoItemList.find(
+            (item) => item.contentId === el.contentId
+          ).content = newContent || el.content;
+      }
+    });
+
+    setIsUpdate(false);
+    setNewContent("");
   };
 
   return (
@@ -98,8 +115,19 @@ function TodoContent(props) {
         ) : (
           <div>
             <form>
-              <input value={props.data.content} />
-              <button>수정</button>
+              <input
+                placeholder={props.data.content}
+                value={newContent || ""}
+                onChange={(e) => setNewContent(e.currentTarget.value)}
+              />
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  updateContent(props.data);
+                }}
+              >
+                수정
+              </button>
             </form>
           </div>
         )}
@@ -111,10 +139,8 @@ function TodoContent(props) {
               setIsUpdate(!isUpdate);
             }}
           >
-            {!isUpdate ? (
+            {!isUpdate && (
               <span className="material-symbols-outlined">edit_square</span>
-            ) : (
-              <span className="material-symbols-outlined">check_circle</span>
             )}
           </div>
         )}
