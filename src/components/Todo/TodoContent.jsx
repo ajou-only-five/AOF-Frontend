@@ -51,7 +51,6 @@ function TodoContent(props) {
             : 0;
 
         setTodoList(tmp);
-        setTodayTodoList(todaytmp);
       }
     });
   };
@@ -65,8 +64,13 @@ function TodoContent(props) {
         console.log(v);
         if (v.status === 200) {
           let tmp = Array.from(todoList);
+          let todaytmp = Array.from(todayTodoList);
 
           const contentIndex = tmp[getDate(el.startAt) - 1]
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.findIndex((v) => v.contentId === el.contentId);
+
+          const todayContentIndex = todaytmp
             .find((element) => element.titleId === el.titleId)
             .todoItemList.findIndex((v) => v.contentId === el.contentId);
 
@@ -78,6 +82,10 @@ function TodoContent(props) {
           tmp[getDate(el.startAt) - 1]
             .find((element) => element.titleId === el.titleId)
             .todoItemList.splice(contentIndex, 1);
+
+          todaytmp
+            .find((element) => element.titleId === el.titleId)
+            .todoItemList.splice(todayContentIndex, 1);
 
           setTodoList(tmp);
         }
