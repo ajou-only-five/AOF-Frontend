@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDateContext } from "../../context/dateContext";
 import { useUserContext } from "../../context/userContext/index";
 import { server_debug } from "../../js/server_url";
 import AddTitle from "./AddTitle";
@@ -6,6 +7,9 @@ import SearchListview from "./SearchListView";
 
 function Sidebar(props) {
   const { user, setUser } = useUserContext();
+
+  const {date, setDate} = useDateContext();
+
 
   const searchListViewDataList = [
     {
@@ -50,10 +54,18 @@ function Sidebar(props) {
       {
         user.lastViewUserId !== null &&
         <li onClick={() => {
-          console.log(user.lastViewUserId);
           let temp = { ...user };
           temp.lastViewUserId = null;
+
+          let today = {
+            year: new Date().getFullYear(),
+            month: new Date().getMonth() + 1,
+          };
+  
           setUser({ ...temp });
+          setDate({
+            ...today
+          })
         }}>돌아가기</li>
       }
     </div>

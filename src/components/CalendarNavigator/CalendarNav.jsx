@@ -6,10 +6,11 @@ import { target } from "../../js/transform";
 import "../../styles/CalendarNav.css";
 import useTodoListContext from "../../context/todoListContext/useTodoListContext.js";
 import useDateContext from "../../context/dateContext/useDateContext.js";
+import useUserContext from "../../context/userContext/useUserContext.js";
 
 function CalendarNav(props) {
   const coverRef = useRef();
-
+  const { user} = useUserContext();
   const { date } = useDateContext();
   const { todoList } = useTodoListContext();
 
