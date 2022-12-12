@@ -147,7 +147,9 @@ function TodoContent(props) {
         {!props.isCard && (
           <div
             onClick={() => {
-              deleteContent(props.data);
+              if (window.confirm("해당 todo를 삭제하시겠습니까 ?")) {
+                deleteContent(props.data);
+              }
             }}
           >
             <span className="material-symbols-outlined">close</span>

@@ -95,7 +95,8 @@ function TodoTitle(props) {
       </div>
       <div
         onClick={() => {
-          deleteTodoTitle();
+          if (window.confirm("해당 타이틀을 삭제하시겠습니까 ?"))
+            deleteTodoTitle();
         }}
       >
         <span className="material-symbols-outlined">delete</span>
