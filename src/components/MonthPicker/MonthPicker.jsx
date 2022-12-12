@@ -1,6 +1,8 @@
 import React from "react";
+import { useDateContext } from "../../context/dateContext";
 
 function MonthPicker(props) {
+  const { date, setDate } = useDateContext();
   return (
     <div
       style={{
@@ -13,11 +15,27 @@ function MonthPicker(props) {
         gap: "10px",
       }}
     >
-      <div>{"<"}</div>
-      <div>
-        {props.todoYear}년 {props.todoMonth}월
+      <div
+        onClick={() => {
+          if (date.month === 1) {
+            setDate({ year: date.year - 1, month: 12 });
+          } else setDate({ ...date, month: date.month - 1 });
+        }}
+      >
+        {"<"}
       </div>
-      <div>{">"}</div>
+      <div>
+        {date.year}년 {date.month}월
+      </div>
+      <div
+        onClick={() => {
+          if (date.month === 12) {
+            setDate({ year: date.year + 1, month: 1 });
+          } else setDate({ ...date, month: date.month + 1 });
+        }}
+      >
+        {">"}
+      </div>
     </div>
   );
 }

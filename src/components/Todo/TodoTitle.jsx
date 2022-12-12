@@ -14,7 +14,7 @@ function TodoTitle(props) {
   const createNewContent = async () => {
     let todoAt = new Date(
       date.year,
-      date.month,
+      date.month - 1,
       props.day === undefined ? new Date().getDate() : props.day
     );
 

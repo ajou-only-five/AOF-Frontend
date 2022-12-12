@@ -12,6 +12,8 @@ const DateProvider = ({ children }) => {
     [date, setDate]
   );
 
+  console.log(date);
+
   return <DateContext.Provider value={value}>{children}</DateContext.Provider>;
 };
 
